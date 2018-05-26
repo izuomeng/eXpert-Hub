@@ -1,0 +1,6 @@
+# Try to write your query here
+{
+  getUserList {
+    name
+  }
+}
