@@ -12,9 +12,11 @@ import PropTypes from 'prop-types'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
 import styled from 'styled-components'
+import { Button } from 'antd'
 import withStyles from 'isomorphic-style-loader/lib/withStyles'
+import { trans } from 'utils'
 import s from './Contact.css'
-import USER_LIST_QUERY from './getUser.graphql'
+import USER_LIST_QUERY from './get-user.gql'
 
 const USER_QUERY = gql`
   query User($name: String!) {
@@ -24,6 +26,10 @@ const USER_QUERY = gql`
       gender
     }
   }
+`
+
+const StyledButton = styled(trans(Button))`
+  margin: 20px;
 `
 
 const UserInfo = styled.div`
@@ -38,7 +44,6 @@ const UserInfo = styled.div`
 
 class Contact extends React.Component {
   static propTypes = {
-    title: PropTypes.string.isRequired,
     client: PropTypes.shape({
       query: PropTypes.func.isRequired
     }).isRequired
@@ -75,13 +80,15 @@ class Contact extends React.Component {
               </UserInfo>
               {loading ? <h2>loading.....</h2> : null}
               <div className={s.container}>
-                <h1>{this.props.title}</h1>
                 <div>
                   {getUserList.map(user => (
                     <div key={user.name}>
-                      <button onClick={this.handleClick(user.name)}>
+                      <StyledButton
+                        type="primary"
+                        onClick={this.handleClick(user.name)}
+                      >
                         {user.name}
-                      </button>
+                      </StyledButton>
                     </div>
                   ))}
                 </div>

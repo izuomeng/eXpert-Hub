@@ -130,14 +130,19 @@ const config = {
         exclude: /node_modules/,
         loader: 'graphql-tag/loader'
       },
-
       // Rules for Style Sheets
       {
         test: reStyle,
         rules: [
+          {
+            test: /\.css$/,
+            include: [/node_modules\/.*antd/],
+            loader: 'style-loader'
+          },
           // Convert CSS into JS module
           {
             issuer: { not: [reStyle] },
+            exclude: [/node_modules\/.*antd/],
             use: 'isomorphic-style-loader'
           },
 
@@ -511,5 +516,11 @@ const serverConfig = {
     __dirname: false
   }
 }
+
+// Only use babel-plugin-import in client side
+clientConfig.module.rules[0].options.plugins = [
+  ...clientConfig.module.rules[0].options.plugins,
+  ['import', { libraryName: 'antd', style: 'css' }]
+]
 
 export default [clientConfig, serverConfig]

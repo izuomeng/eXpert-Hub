@@ -10,17 +10,17 @@
 import React from 'react'
 // import { Query } from 'react-apollo'
 import Home from './Home'
-import UserList from './news.graphql'
+import USER_LIST from './user-list.gql'
 import Layout from '../../components/Layout'
 
 async function action({ client }) {
   let { data } = await client.query({
-    query: UserList
+    query: USER_LIST
   })
   data = data || {
     getUserList: [
       {
-        name: '123'
+        name: 'gql failed'
       }
     ]
   }
@@ -29,7 +29,7 @@ async function action({ client }) {
     chunks: ['home'],
     component: (
       <Layout>
-        <Home news={data.getUserList} />
+        <Home list={data.getUserList} />
       </Layout>
     )
   }

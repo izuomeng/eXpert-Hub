@@ -94,7 +94,7 @@ module.exports = {
     'react/prefer-stateless-function': 'off',
 
     'react/forbid-prop-types': 'off',
-
+    'react/prop-types': [2, { ignore: ['className'] }],
     // ESLint plugin for prettier formatting
     // https://github.com/prettier/eslint-plugin-prettier
     'prettier/prettier': 'error'

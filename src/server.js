@@ -71,7 +71,7 @@ app.use(bodyParser.json())
 app.use(
   expressJwt({
     secret: config.auth.jwt.secret,
-    credentialsRequired: true,
+    credentialsRequired: false,
     getToken: req => req.cookies.id_token
   }).unless({ path: ['/login', '/logout'] })
 )

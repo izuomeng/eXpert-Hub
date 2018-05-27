@@ -9,14 +9,19 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-// import { graphql, compose } from 'react-apollo'
+import { List } from 'antd'
 import withStyles from 'isomorphic-style-loader/lib/withStyles'
-// import newsQuery from './news.graphql'
+import { trans } from 'utils'
+import styled from 'styled-components'
 import s from './Home.css'
+
+const StyledList = styled(trans(List))`
+  margin: 20px;
+`
 
 class Home extends React.Component {
   static propTypes = {
-    news: PropTypes.arrayOf(
+    list: PropTypes.arrayOf(
       PropTypes.shape({
         name: PropTypes.string.isRequired,
         age: PropTypes.number,
@@ -26,18 +31,17 @@ class Home extends React.Component {
   }
 
   render() {
-    const { news } = this.props
+    const { list } = this.props
     return (
       <div className={s.root}>
         <div className={s.container}>
-          <h1>User List</h1>
-          {news.map(item => (
-            <article key={item.name} className={s.newsItem}>
-              <h1 className={s.newsTitle}>
-                <div>{item.name}</div>
-              </h1>
-            </article>
-          ))}
+          <StyledList
+            header={<div>Header</div>}
+            footer={<div>Footer</div>}
+            bordered
+            dataSource={list}
+            renderItem={item => <List.Item>{item.name}</List.Item>}
+          />
         </div>
       </div>
     )

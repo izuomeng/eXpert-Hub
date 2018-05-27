@@ -1,4 +1,4 @@
-query HomeNews {
+{
   getUserList {
     name
     age
