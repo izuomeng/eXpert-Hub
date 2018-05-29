@@ -14,7 +14,7 @@ import gql from 'graphql-tag'
 import styled from 'styled-components'
 import { Button } from 'antd'
 import withStyles from 'isomorphic-style-loader/lib/withStyles'
-import { trans } from 'utils'
+import { InjectClass } from 'utils/HOC'
 import s from './Contact.css'
 import USER_LIST_QUERY from './get-user.gql'
 
@@ -28,7 +28,7 @@ const USER_QUERY = gql`
   }
 `
 
-const StyledButton = styled(trans(Button))`
+const StyledButton = styled(InjectClass(Button))`
   margin: 20px;
 `
 
@@ -74,24 +74,24 @@ class Contact extends React.Component {
           const { currentUser, loading } = this.state
           return (
             <div className={s.root}>
-              <UserInfo show={!!currentUser.name}>
-                name: {currentUser.name} <br />
-                age: {currentUser.age}
-              </UserInfo>
-              {loading ? <h2>loading.....</h2> : null}
+              {loading ? (
+                <div>loading.....</div>
+              ) : (
+                <UserInfo show={!!currentUser.name}>
+                  name: {currentUser.name} <br />
+                  age: {currentUser.age}
+                </UserInfo>
+              )}
               <div className={s.container}>
-                <div>
-                  {getUserList.map(user => (
-                    <div key={user.name}>
-                      <StyledButton
-                        type="primary"
-                        onClick={this.handleClick(user.name)}
-                      >
-                        {user.name}
-                      </StyledButton>
-                    </div>
-                  ))}
-                </div>
+                {getUserList.map(user => (
+                  <StyledButton
+                    key={user.name}
+                    type="primary"
+                    onClick={this.handleClick(user.name)}
+                  >
+                    {user.name}
+                  </StyledButton>
+                ))}
               </div>
             </div>
           )

@@ -10,6 +10,7 @@
 /* @flow */
 
 import type { graphql as graphqType, GraphQLSchema } from 'graphql'
+import { isEnumerable } from 'utils'
 
 type Fetch = (url: string, options: ?any) => Promise<any>
 
@@ -59,17 +60,21 @@ function createFetch(
         json: () => Promise.resolve(result)
       })
     }
-
+    const newOptions = {
+      ...defaults,
+      ...options,
+      // 防止转换formdata
+      body: isEnumerable(options.body)
+        ? JSON.stringify(options.body)
+        : options.body,
+      headers: {
+        ...defaults.headers,
+        ...(options && options.headers)
+      }
+    }
     return isGraphQL || url.startsWith('/api')
-      ? fetch(`${baseUrl}${url}`, {
-          ...defaults,
-          ...options,
-          headers: {
-            ...defaults.headers,
-            ...(options && options.headers)
-          }
-        })
-      : fetch(url, options)
+      ? fetch(`${baseUrl}${url}`, newOptions)
+      : fetch(url, newOptions)
   }
 }
 

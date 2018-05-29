@@ -10,13 +10,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { List } from 'antd'
-import withStyles from 'isomorphic-style-loader/lib/withStyles'
-import { trans } from 'utils'
+import { InjectClass } from 'utils/HOC'
 import styled from 'styled-components'
-import s from './Home.css'
 
-const StyledList = styled(trans(List))`
-  margin: 20px;
+const StyledList = styled(InjectClass(List))`
+  max-width: 500px;
+  margin: 50px auto;
 `
 
 class Home extends React.Component {
@@ -33,19 +32,15 @@ class Home extends React.Component {
   render() {
     const { list } = this.props
     return (
-      <div className={s.root}>
-        <div className={s.container}>
-          <StyledList
-            header={<div>Header</div>}
-            footer={<div>Footer</div>}
-            bordered
-            dataSource={list}
-            renderItem={item => <List.Item>{item.name}</List.Item>}
-          />
-        </div>
-      </div>
+      <StyledList
+        header={<div>Header</div>}
+        footer={<div>Footer</div>}
+        bordered
+        dataSource={list}
+        renderItem={item => <List.Item>{item.name}</List.Item>}
+      />
     )
   }
 }
 
-export default withStyles(s)(Home)
+export default Home
