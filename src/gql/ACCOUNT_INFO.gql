@@ -1,0 +1,6 @@
+{
+  getAccount {
+    name
+    role
+  }
+}

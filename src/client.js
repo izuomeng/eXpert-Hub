@@ -12,6 +12,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import deepForceUpdate from 'react-deep-force-update'
 import queryString from 'query-string'
+import Cookies from 'js-cookie'
 import { createPath } from 'history/PathUtils'
 import App from './components/App'
 import createFetch from './createFetch'
@@ -72,7 +73,9 @@ async function onLocationChange(location, action) {
   try {
     context.pathname = location.pathname
     context.query = queryString.parse(location.search)
-
+    context.cookie = {
+      token: Cookies.get('token')
+    }
     // Traverses the list of routes in the order they are defined until
     // it finds the first route that matches provided URL path string
     // and whose action method returns anything other than `undefined`.

@@ -8,35 +8,44 @@
  */
 
 import React from 'react'
-import cx from 'classnames'
-import withStyles from 'isomorphic-style-loader/lib/withStyles'
-import s from './Navigation.css'
-import Link from '../Link'
+import { Menu, Icon } from 'antd'
+import PropTypes from 'prop-types'
+import history from '../../history'
 
 class Navigation extends React.Component {
+  static propTypes = {
+    pathname: PropTypes.string.isRequired
+  }
+  state = {
+    /* eslint-disable no-restricted-globals */
+    current: this.props.pathname
+  }
+  handleClick = e => {
+    this.setState(
+      {
+        current: e.key
+      },
+      () => {
+        history.push(e.key)
+      }
+    )
+  }
   render() {
     return (
-      <div className={s.root} role="navigation">
-        <Link className={s.link} to="/">
-          Home
-        </Link>
-        <Link className={s.link} to="/about">
-          About
-        </Link>
-        <Link className={s.link} to="/contact">
-          Contact
-        </Link>
-        <span className={s.spacer}> | </span>
-        <Link className={s.link} to="/login">
-          Log in
-        </Link>
-        <span className={s.spacer}>or</span>
-        <Link className={cx(s.link, s.highlight)} to="/register">
-          Sign up
-        </Link>
-      </div>
+      <Menu
+        onClick={this.handleClick}
+        selectedKeys={[this.state.current]}
+        mode="horizontal"
+      >
+        <Menu.Item key="/">
+          <Icon type="home" />Home
+        </Menu.Item>
+        <Menu.Item key="/about">
+          <Icon type="link" />About
+        </Menu.Item>
+      </Menu>
     )
   }
 }
 
-export default withStyles(s)(Navigation)
+export default Navigation
