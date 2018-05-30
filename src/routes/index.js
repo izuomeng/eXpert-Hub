@@ -1,11 +1,5 @@
-/**
- * React Starter Kit (https://www.reactstarterkit.com/)
- *
- * Copyright © 2014-present Kriasoft, LLC. All rights reserved.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE.txt file in the root directory of this source tree.
- */
+import ACCOUNT_INFO from 'gql/ACCOUNT_INFO.gql'
+import { setUserInfo } from 'actions/user'
 
 /* eslint-disable global-require */
 
@@ -18,10 +12,6 @@ const routes = {
     {
       path: '',
       load: () => import(/* webpackChunkName: 'home' */ './home')
-    },
-    {
-      path: '/contact',
-      load: () => import(/* webpackChunkName: 'contact' */ './contact')
     },
     {
       path: '/login',
@@ -50,14 +40,35 @@ const routes = {
     }
   ],
 
-  async action({ next }) {
+  async action({ next, pathname, store, client, cookie }) {
     // Execute each child route until one of them return the result
     const route = await next()
-
     // Provide default values for title, description etc.
-    route.title = `${route.title || 'Untitled Page'} - www.reactstarterkit.com`
+    route.title = `${route.title || 'Untitled Page'}`
     route.description = route.description || ''
-
+    // 如果没有token，重定向到登陆页
+    if (!cookie.token && pathname !== '/login') {
+      route.redirect = '/login'
+      return route
+    }
+    const { user } = store.getState()
+    if (!user && cookie.token) {
+      const { data } = await client.query({
+        query: ACCOUNT_INFO
+      })
+      // 提取结果中的用户信息
+      const info = data.getAccount
+      store.dispatch(
+        setUserInfo({
+          ...info
+        })
+      )
+    }
+    // 如果有用户数据却访问了登陆页
+    if (user && pathname === '/login') {
+      route.redirect = '/'
+      return route
+    }
     return route
   }
 }

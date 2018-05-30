@@ -71,37 +71,44 @@ app.use(bodyParser.json())
 app.use(
   expressJwt({
     secret: config.auth.jwt.secret,
+    // set to true if front-end authenticate required
     credentialsRequired: false,
-    getToken: req => req.cookies.id_token
-  }).unless({ path: ['/login', '/logout'] })
+    getToken: req => req.cookies.token
+  }).unless({ path: ['/login', '/loginapi', '/graphql'] })
 )
 // Error handler for express-jwt
 app.use((err, req, res, next) => {
   // eslint-disable-line no-unused-vars
   if (err instanceof Jwt401Error) {
-    console.error('[express-jwt-error]', req.cookies.id_token)
+    console.error('[express-jwt-error]', req.cookies.token)
     // `clearCookie`, otherwise user can't use web-app until cookie expires
-    res.clearCookie('id_token')
+    res.clearCookie('token')
     res.redirect('/login')
   }
   next(err)
 })
 
-app.post('/login', (req, res) => {
+app.post('/loginapi', (req, res) => {
   const payload = req.body
-  if (payload.usernameOrEmail !== 'zuomeng') {
-    return res.end('invalid user name')
+  if (payload.userName !== 'zuomeng') {
+    res.clearCookie('token')
+    return res.json({
+      errorCode: 1
+    })
   }
-  const expiresIn = 60 * 60 * 24 * 180 // 180 days
+  const expiresIn = 60 * 60 * 24 * 180
   const token = jwt.sign(
-    { username: req.body.usernameOrEmail },
+    { username: req.body.userName },
     config.auth.jwt.secret,
     {
       expiresIn
     }
   )
-  res.cookie('id_token', token, { maxAge: 1000 * expiresIn, httpOnly: true })
-  return res.redirect('/')
+  res.cookie('token', token, { maxAge: 1000 * expiresIn, httpOnly: false })
+  return res.json({
+    errorCode: 0,
+    userName: 'zuomeng'
+  })
 })
 //
 // Register API middleware
@@ -174,7 +181,8 @@ app.get('*', async (req, res, next) => {
       store,
       storeSubscription: null,
       // Apollo Client for use with react-apollo
-      client: apolloClient
+      client: apolloClient,
+      cookie: req.cookies
     }
 
     const route = await router.resolve(context)

@@ -15,6 +15,7 @@ import {
 } from './graphql/Database/schema' */
 
 import * as UserList from './graphql/TestData/schema'
+import * as Account from './graphql/Account'
 
 const RootQuery = [
   `
@@ -30,6 +31,7 @@ const RootQuery = [
   type RootQuery {
     ${NewsQueries}
     ${UserList.queries}
+    ${Account.queries}
   }
 `
 ]
@@ -62,7 +64,7 @@ const SchemaDefinition = [
 
 // Merge all of the resolver objects together
 // Put schema together into one array of schema strings
-const resolvers = merge(NewsResolvers, UserList.resolvers)
+const resolvers = merge(NewsResolvers, UserList.resolvers, Account.resolvers)
 
 const schema = [
   ...SchemaDefinition,
@@ -70,7 +72,8 @@ const schema = [
   ...Mutation,
 
   ...NewsSchema,
-  ...UserList.schema
+  ...UserList.schema,
+  ...Account.schema
 ]
 
 export default makeExecutableSchema({

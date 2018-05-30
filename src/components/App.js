@@ -11,6 +11,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Provider as ReduxProvider } from 'react-redux'
 import { ApolloProvider } from 'react-apollo'
+import AppContext from './context'
 
 const ContextType = {
   // Enables critical path CSS rendering
@@ -24,7 +25,8 @@ const ContextType = {
   // http://redux.js.org/docs/basics/UsageWithReact.html
   ...ReduxProvider.childContextTypes,
   // Apollo Client
-  client: PropTypes.object.isRequired
+  client: PropTypes.object.isRequired,
+  cookie: PropTypes.object.isRequired
 }
 
 /**
@@ -62,12 +64,16 @@ class App extends React.PureComponent {
   }
 
   render() {
-    // Here, we are at universe level, sure? ;-)
+    // Here, we are at universe level, sure? :-)
     const { client } = this.props.context
     // NOTE: If you need to add or modify header, footer etc. of the app,
     // please do that inside the Layout component.
     return (
-      <ApolloProvider client={client}>{this.props.children}</ApolloProvider>
+      <ApolloProvider client={client}>
+        <AppContext.Provider value={{ context: this.props.context }}>
+          {this.props.children}
+        </AppContext.Provider>
+      </ApolloProvider>
     )
   }
 }

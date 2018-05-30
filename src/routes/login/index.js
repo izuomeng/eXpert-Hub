@@ -8,20 +8,15 @@
  */
 
 import React from 'react'
-import Layout from '../../components/Layout'
 import Login from './Login'
 
 const title = 'Log In'
 
-function action() {
+function action({ fetch }) {
   return {
     chunks: ['login'],
     title,
-    component: (
-      <Layout>
-        <Login title={title} />
-      </Layout>
-    )
+    component: <Login title={title} fetch={fetch} />
   }
 }
 

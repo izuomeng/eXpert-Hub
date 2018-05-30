@@ -8,20 +8,41 @@
  */
 
 import React from 'react'
-import withStyles from 'isomorphic-style-loader/lib/withStyles'
-import s from './Header.css'
-import Navigation from '../Navigation'
+import styled from 'styled-components'
+import PropTypes from 'prop-types'
+import { WrapContext } from 'utils/HOC'
+// import Navigation from '../Navigation'
+import Link from '../Link'
+
+const SmallNav = styled.div`
+  width: 100%;
+  text-align: right;
+  padding: 0 20px;
+  & > a {
+    margin-left: 20px;
+  }
+`
+const Container = styled.div`
+  padding-top: 20px;
+`
 
 class Header extends React.Component {
+  static propTypes = {
+    context: PropTypes.object.isRequired
+  }
   render() {
+    const { cookie: { token } } = this.props.context
     return (
-      <div className={s.root}>
-        <div className={s.container}>
-          <Navigation />
-        </div>
-      </div>
+      <Container>
+        <SmallNav>
+          {token ? <Link to="/">个人中心</Link> : <Link to="/login">登陆</Link>}
+          <Link to="/">购物车</Link>
+          <Link to="/">我的收藏</Link>
+        </SmallNav>
+        {/* <Navigation pathname={pathname} /> */}
+      </Container>
     )
   }
 }
 
-export default withStyles(s)(Header)
+export default WrapContext(Header)

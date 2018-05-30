@@ -1,7 +1,0 @@
-{
-  getUserList {
-    name
-    age
-    gender
-  }
-}

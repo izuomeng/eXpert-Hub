@@ -8,19 +8,14 @@
  */
 
 import React from 'react'
-// import { Query } from 'react-apollo'
 import Home from './Home'
-import USER_LIST from './user-list.gql'
 import Layout from '../../components/Layout'
 
-async function action({ client }) {
-  let { data } = await client.query({
-    query: USER_LIST
-  })
-  data = data || {
+async function action() {
+  const data = {
     getUserList: [
       {
-        name: 'gql failed'
+        name: 'gql'
       }
     ]
   }
