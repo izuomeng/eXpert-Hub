@@ -45,7 +45,7 @@ const routes = {
       return route
     }
     const { user } = store.getState()
-    if (!user) {
+    if (!user && cookie.token) {
       const { data } = await client.query({
         query: ACCOUNT_INFO
       })

@@ -15,7 +15,7 @@ import styled from 'styled-components'
 
 const StyledList = styled(InjectClass(List))`
   max-width: 500px;
-  margin: 50px auto;
+  margin: 50px auto !important;
 `
 
 class Home extends React.Component {
