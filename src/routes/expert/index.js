@@ -7,15 +7,19 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-@import '../../components/variables.css';
+import React from 'react'
+import Expert from './expert'
+import Layout from '../../components/Layout'
 
-.root {
-  padding-left: 20px;
-  padding-right: 20px;
+function action() {
+  return {
+    chunks: ['expert'],
+    component: (
+      <Layout>
+        <Expert />
+      </Layout>
+    )
+  }
 }
 
-.container {
-  margin: 0 auto;
-  padding: 0 0 40px;
-  max-width: var(--max-content-width);
-}
+export default action

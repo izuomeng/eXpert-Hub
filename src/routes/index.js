@@ -39,7 +39,10 @@ const routes = {
       path: '/privacy',
       load: () => import(/* webpackChunkName: 'privacy' */ './privacy')
     },
-
+    {
+      path: '/expert',
+      load: () => import(/* webpackChunkName: 'expert' */ './expert')
+    },
     // Wildcard routes, e.g. { path: '(.*)', ... } (must go last)
     {
       path: '(.*)',
