@@ -16,14 +16,14 @@ npm: >= 3.10
 将项目克隆至本地后，先切换到项目根目录下，打开一个终端运行下面这个指令(启动 mock 服务器)
 
 ```shell
-node apollo-mock.js
+$ npm install yarn -g
+$ yarn
+$ node apollo-mock.js
 ```
 
 接下来再打开一个新的终端窗口，运行：
 
 ```shell
-$ npm install yarn -g
-$ yarn
 $ yarn start
 ```
 
