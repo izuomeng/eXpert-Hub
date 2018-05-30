@@ -23,5 +23,15 @@ module.exports = {
     '@babel/preset-flow',
     '@babel/preset-react'
   ],
-  ignore: ['node_modules', 'build']
+  ignore: ['node_modules', 'build'],
+  plugins: [
+    [
+      'babel-plugin-styled-components',
+      {
+        // ssr: true,
+        // minify: true,
+        displayName: true
+      }
+    ]
+  ]
 }
