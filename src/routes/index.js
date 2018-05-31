@@ -1,4 +1,4 @@
-import ACCOUNT_INFO from 'gql/ACCOUNT_INFO.gql'
+import ACCOUNT_INFO from 'gql/account/ACCOUNT_INFO.gql'
 import { setUserInfo } from 'actions/user'
 
 /* eslint-disable global-require */

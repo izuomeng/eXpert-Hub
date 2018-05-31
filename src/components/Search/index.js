@@ -26,9 +26,10 @@ class Search extends Component {
     return (
       <Container>
         <Input
-          prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+          prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />}
           addonBefore={selectBefore}
-          defaultValue="mysite"
+          placeholder="搜索"
+          // defaultValue="mysite"
         />
       </Container>
     )

@@ -12,19 +12,12 @@ import Home from './Home'
 import Layout from '../../components/Layout'
 
 async function action() {
-  const data = {
-    getUserList: [
-      {
-        name: 'gql'
-      }
-    ]
-  }
   return {
-    title: 'React Starter Kit',
+    title: 'Home page',
     chunks: ['home'],
     component: (
       <Layout>
-        <Home list={data.getUserList} />
+        <Home />
       </Layout>
     )
   }

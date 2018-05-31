@@ -11,12 +11,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
-import styled from 'styled-components'
-import { Button } from 'antd'
-import withStyles from 'isomorphic-style-loader/lib/withStyles'
-import { InjectClass } from 'utils/HOC'
-import s from './Contact.css'
-import USER_LIST_QUERY from './get-user.gql'
+import USER_LIST_QUERY from 'gql/contact/GET_USER.gql'
+import { StyledButton, UserInfo } from './components'
 
 const USER_QUERY = gql`
   query User($name: String!) {
@@ -26,20 +22,6 @@ const USER_QUERY = gql`
       gender
     }
   }
-`
-
-const StyledButton = styled(InjectClass(Button))`
-  margin: 20px;
-`
-
-const UserInfo = styled.div`
-  border: 1px solid lightskyblue;
-  padding: 20px;
-  margin: 50px;
-  width: 200px;
-  text-align: center;
-  border-radius: 3px;
-  display: ${props => (props.show ? 'block' : 'none')};
 `
 
 class Contact extends React.Component {
@@ -73,7 +55,7 @@ class Contact extends React.Component {
           const { getUserList } = data
           const { currentUser, loading } = this.state
           return (
-            <div className={s.root}>
+            <div>
               {loading ? (
                 <div>loading.....</div>
               ) : (
@@ -82,7 +64,7 @@ class Contact extends React.Component {
                   age: {currentUser.age}
                 </UserInfo>
               )}
-              <div className={s.container}>
+              <div>
                 {getUserList.map(user => (
                   <StyledButton
                     key={user.name}
@@ -101,4 +83,4 @@ class Contact extends React.Component {
   }
 }
 
-export default withStyles(s)(Contact)
+export default Contact

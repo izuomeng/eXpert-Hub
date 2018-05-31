@@ -18,6 +18,8 @@ const SmallNav = styled.div`
   width: 100%;
   text-align: right;
   padding: 0 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
   & > a {
     margin-left: 20px;
   }
