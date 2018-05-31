@@ -31,6 +31,12 @@ body {
   margin: 0;
 }
 
+html,
+body {
+  width: auto;
+  height: auto;
+}
+
 a {
   color: #0074c2;
 }

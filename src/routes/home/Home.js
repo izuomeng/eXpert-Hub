@@ -9,42 +9,48 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { List } from 'antd'
-import { InjectClass } from 'utils/HOC'
-import styled from 'styled-components'
+import { graphql } from 'react-apollo'
+import { Spin } from 'antd'
 import Search from 'components/Search'
-
-const StyledList = styled(InjectClass(List))`
-  max-width: 500px;
-  margin: 50px auto !important;
-`
+import LIST from 'gql/home/LIST.gql'
+import { Main, LeftContainer, RightContainer } from './components/Container'
+import Card from './components/Card'
 
 class Home extends React.Component {
   static propTypes = {
-    list: PropTypes.arrayOf(
-      PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        age: PropTypes.number,
-        gender: PropTypes.number
-      })
-    ).isRequired
+    data: PropTypes.shape({
+      getCategoryList: PropTypes.arrayOf(
+        PropTypes.shape({
+          name: PropTypes.string.isRequired
+        })
+      ),
+      loading: PropTypes.bool.isRequired
+    })
   }
-
+  static defaultProps = {
+    data: {
+      getCategoryList: [{ name: '' }]
+    }
+  }
   render() {
-    const { list } = this.props
+    const { getCategoryList, loading } = this.props.data
     return (
       <React.Fragment>
         <Search />
-        <StyledList
-          header={<div>Header</div>}
-          footer={<div>Footer</div>}
-          bordered
-          dataSource={list}
-          renderItem={item => <List.Item>{item.name}</List.Item>}
-        />
+        <Spin spinning={loading}>
+          <Main>
+            <LeftContainer />
+            <RightContainer>
+              {!loading &&
+                getCategoryList.map(item => (
+                  <Card key={item.name} name={item.name} />
+                ))}
+            </RightContainer>
+          </Main>
+        </Spin>
       </React.Fragment>
     )
   }
 }
 
-export default Home
+export default graphql(LIST)(Home)

@@ -9,23 +9,11 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Icon, Input, Button, Checkbox, message } from 'antd'
-import styled from 'styled-components'
-import { InjectClass } from 'utils/HOC'
-import Link from 'components/Link'
+import { Form, Icon, Input, Checkbox, message } from 'antd'
 import history from '../../history'
+import { StyledForm, StyledLink as Link, LoginButton } from './components'
 
 const FormItem = Form.Item
-const StyledForm = styled(InjectClass(Form))`
-  max-width: 300px;
-  margin: 50px auto !important;
-`
-const LoginButton = styled(InjectClass(Button))`
-  width: 100%;
-`
-const StyledLink = styled(InjectClass(Link))`
-  float: right;
-`
 
 class Login extends React.Component {
   static propTypes = {
@@ -86,7 +74,7 @@ class Login extends React.Component {
             valuePropName: 'checked',
             initialValue: true
           })(<Checkbox>Remember me</Checkbox>)}
-          <StyledLink to="/login">Forgot password</StyledLink>
+          <Link to="/login">Forgot password</Link>
           <LoginButton type="primary" htmlType="submit">
             Log in
           </LoginButton>
