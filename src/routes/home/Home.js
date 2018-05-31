@@ -12,6 +12,7 @@ import PropTypes from 'prop-types'
 import { List } from 'antd'
 import { InjectClass } from 'utils/HOC'
 import styled from 'styled-components'
+import Search from 'components/Search'
 
 const StyledList = styled(InjectClass(List))`
   max-width: 500px;
@@ -32,13 +33,16 @@ class Home extends React.Component {
   render() {
     const { list } = this.props
     return (
-      <StyledList
-        header={<div>Header</div>}
-        footer={<div>Footer</div>}
-        bordered
-        dataSource={list}
-        renderItem={item => <List.Item>{item.name}</List.Item>}
-      />
+      <React.Fragment>
+        <Search />
+        <StyledList
+          header={<div>Header</div>}
+          footer={<div>Footer</div>}
+          bordered
+          dataSource={list}
+          renderItem={item => <List.Item>{item.name}</List.Item>}
+        />
+      </React.Fragment>
     )
   }
 }

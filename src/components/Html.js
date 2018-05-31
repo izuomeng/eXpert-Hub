@@ -49,6 +49,10 @@ class Html extends React.Component {
           ))}
           <link rel="manifest" href="/site.webmanifest" />
           <link rel="apple-touch-icon" href="/icon.png" />
+          <link
+            href="https://cdn.bootcss.com/antd/3.5.4/antd.css"
+            rel="stylesheet"
+          />
           {styles.map(style => (
             <style
               key={style.id}
