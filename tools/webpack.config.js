@@ -124,7 +124,7 @@ const config = {
               'babel-plugin-styled-components',
               {
                 ssr: true,
-                minify: true,
+                minify: !isDebug,
                 displayName: true
               }
             ]

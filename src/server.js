@@ -89,15 +89,15 @@ app.use((err, req, res, next) => {
 
 app.post('/loginapi', (req, res) => {
   const payload = req.body
-  if (payload.userName !== 'zuomeng') {
-    res.clearCookie('token')
-    return res.json({
-      errorCode: 1
-    })
-  }
+  // if (payload.userName !== 'zuomeng') {
+  //   res.clearCookie('token')
+  //   return res.json({
+  //     errorCode: 1
+  //   })
+  // }
   const expiresIn = 60 * 60 * 24 * 180
   const token = jwt.sign(
-    { username: req.body.userName },
+    { username: payload.userName },
     config.auth.jwt.secret,
     {
       expiresIn
