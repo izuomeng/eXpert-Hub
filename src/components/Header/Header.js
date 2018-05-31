@@ -11,7 +11,7 @@ import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { WrapContext } from 'utils/HOC'
-import Navigation from '../Navigation'
+// import Navigation from '../Navigation'
 import Link from '../Link'
 
 const SmallNav = styled.div`
@@ -31,7 +31,7 @@ class Header extends React.Component {
     context: PropTypes.object.isRequired
   }
   render() {
-    const { pathname, cookie: { token } } = this.props.context
+    const { cookie: { token } } = this.props.context
     return (
       <Container>
         <SmallNav>
@@ -39,7 +39,7 @@ class Header extends React.Component {
           <Link to="/">购物车</Link>
           <Link to="/">我的收藏</Link>
         </SmallNav>
-        <Navigation pathname={pathname} />
+        {/* <Navigation pathname={pathname} /> */}
       </Container>
     )
   }
