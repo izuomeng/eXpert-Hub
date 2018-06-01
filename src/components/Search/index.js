@@ -1,8 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Input, Select, Icon } from 'antd'
+import styled from 'styled-components'
 
 const { Option } = Select
+const Container = styled.div`
+  max-width: 600px;
+  margin: 30px auto;
+`
 
 class Search extends Component {
   static propTypes = {
@@ -19,13 +24,14 @@ class Search extends Component {
       </Select>
     )
     return (
-      <div style={{ marginBottom: 16 }}>
+      <Container>
         <Input
-          prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+          prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />}
           addonBefore={selectBefore}
-          defaultValue="mysite"
+          placeholder="搜索"
+          // defaultValue="mysite"
         />
-      </div>
+      </Container>
     )
   }
 }

@@ -45,12 +45,17 @@ const typeDefs = gql`
     role: [String]!
   }
 
+  type Category {
+    name: String!
+  }
+
   # The "Query" type is the root of all GraphQL queries.
   # (A "Mutation" type will be covered later on.)
   type Query {
     getUserList: [User]
     getUser(name: String!): User
     getAccount: Account
+    getCategoryList: [Category]
   }
 `
 
@@ -68,6 +73,18 @@ const resolvers = {
         name: 'zuomeng',
         role: ['admin']
       }
+    },
+    getCategoryList() {
+      return [
+        { name: '力学' },
+        { name: '机械工程' },
+        { name: '光学工程' },
+        { name: '地质工程' },
+        { name: '建筑学' },
+        { name: '矿业工程' },
+        { name: '交通运输' },
+        { name: '核科学' }
+      ]
     }
   }
 }

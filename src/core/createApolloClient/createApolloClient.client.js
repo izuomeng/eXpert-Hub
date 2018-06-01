@@ -5,17 +5,22 @@ import { from } from 'apollo-link'
 import { onError } from 'apollo-link-error'
 import { HttpLink } from 'apollo-link-http'
 import apolloLogger from 'apollo-link-logger'
+import { message as Message } from 'antd'
 import createCache from './createCache'
 
 const link = from([
   onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors)
-      graphQLErrors.map(({ message, locations, path }) =>
+      graphQLErrors.forEach(({ message, locations, path }) => {
+        Message.error(message)
         console.warn(
           `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
         )
-      )
-    if (networkError) console.warn(`[Network error]: ${networkError}`)
+      })
+    if (networkError) {
+      Message.error(`[Network error]: ${networkError}`)
+      console.warn(`[Network error]: ${networkError}`)
+    }
   }),
   ...(__DEV__ ? [apolloLogger] : []),
   new HttpLink({

@@ -66,7 +66,8 @@ const config = {
   resolve: {
     // Allow absolute paths in imports, e.g. import Button from 'components/Button'
     // Keep in sync with .flowconfig and .eslintrc
-    modules: ['node_modules', 'src']
+    modules: ['node_modules', 'src'],
+    extensions: ['.js', '.jsx']
   },
 
   module: {
@@ -124,7 +125,7 @@ const config = {
               'babel-plugin-styled-components',
               {
                 ssr: true,
-                minify: true,
+                minify: !isDebug,
                 displayName: true
               }
             ]
@@ -138,19 +139,35 @@ const config = {
         exclude: /node_modules/,
         loader: 'graphql-tag/loader'
       },
+      {
+        test: /\.css$/,
+        include: [/node_modules\/.*antd/],
+        use: [
+          {
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader'
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              // eslint-disable-next-line
+              config: {
+                path: './tools/postcss.config.js'
+              }
+            }
+          }
+        ]
+      },
       // Rules for Style Sheets
       {
         test: reStyle,
+        exclude: [/node_modules\/.*antd/],
         rules: [
-          {
-            test: /\.css$/,
-            include: [/node_modules\/.*antd/],
-            loader: 'style-loader'
-          },
           // Convert CSS into JS module
           {
             issuer: { not: [reStyle] },
-            exclude: [/node_modules\/.*antd/],
             use: 'isomorphic-style-loader'
           },
 

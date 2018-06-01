@@ -21,7 +21,6 @@ import React from 'react'
 import ReactDOM from 'react-dom/server'
 import { getDataFromTree } from 'react-apollo'
 import PrettyError from 'pretty-error'
-import { ServerStyleSheet } from 'styled-components'
 import createApolloClient from './core/createApolloClient'
 import App from './components/App'
 import Html from './components/Html'
@@ -90,15 +89,15 @@ app.use((err, req, res, next) => {
 
 app.post('/loginapi', (req, res) => {
   const payload = req.body
-  if (payload.userName !== 'zuomeng') {
-    res.clearCookie('token')
-    return res.json({
-      errorCode: 1
-    })
-  }
+  // if (payload.userName !== 'zuomeng') {
+  //   res.clearCookie('token')
+  //   return res.json({
+  //     errorCode: 1
+  //   })
+  // }
   const expiresIn = 60 * 60 * 24 * 180
   const token = jwt.sign(
-    { username: req.body.userName },
+    { username: payload.userName },
     config.auth.jwt.secret,
     {
       expiresIn
@@ -194,19 +193,11 @@ app.get('*', async (req, res, next) => {
 
     const data = { ...route }
     const rootComponent = <App context={context}>{route.component}</App>
-    const sheet = new ServerStyleSheet()
     await getDataFromTree(rootComponent)
     // this is here because of Apollo redux APOLLO_QUERY_STOP action
     await Promise.delay(0)
-    data.children = await ReactDOM.renderToString(
-      // inject styled components
-      sheet.collectStyles(rootComponent)
-    )
-    const styles = sheet.getStyleTags()
-    data.styles = [
-      { id: 'css', cssText: [...css].join('') },
-      { id: 'styled-components', cssText: styles }
-    ]
+    data.children = await ReactDOM.renderToString(rootComponent)
+    data.styles = [{ id: 'css', cssText: [...css].join('') }]
 
     const scripts = new Set()
     const addChunk = chunk => {
