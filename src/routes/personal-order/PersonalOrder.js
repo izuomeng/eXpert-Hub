@@ -34,7 +34,7 @@ const TagContainer = styled.div`
 class PersonalOrder extends React.Component {
   render() {
     return (
-      <React.Fragment>
+      <div style={{ width: `${100}%` }}>
         <Search />
         <TagContainer>
           <Breadcrumb>
@@ -75,7 +75,7 @@ class PersonalOrder extends React.Component {
             </Row>
           </div>
         </CardContainer>
-      </React.Fragment>
+      </div>
     )
   }
 }

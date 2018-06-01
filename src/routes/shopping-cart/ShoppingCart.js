@@ -1,6 +1,6 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
-import { InjectClass } from 'utils/HOC'
+// import { InjectClass } from 'utils/HOC'
 import styled from 'styled-components'
 import Search from 'components/Search'
 
@@ -11,12 +11,6 @@ import GoodsCard from './GoodsCard'
   max-width: 500px;
   margin: 50px auto !important;
 ` */
-const RowL = styled(InjectClass(Row))`
-  width: 100%;
-  margin-left: auto;
-  margin-right: 0px;
-  float: right;
-`
 
 const TagContainer = styled.div`
   width: 70%;
@@ -65,7 +59,7 @@ class ShoppingCart extends React.Component {
   }
   render() {
     return (
-      <React.Fragment>
+      <div style={{ width: `${100}%` }}>
         <Search />
         <TagContainer>
           <Breadcrumb>
@@ -118,7 +112,7 @@ class ShoppingCart extends React.Component {
           </Row>
         </CardContainer>
         <CardContainer>
-          <RowL gutter={24} type="flex" align="middle">
+          <Row gutter={24} type="flex" align="middle">
             <Col span={6} push={10}>
               已选 {this.state.goodsNumber} 件商品
             </Col>
@@ -128,9 +122,9 @@ class ShoppingCart extends React.Component {
             <Col span={6} push={6}>
               <Button type="primary">支付</Button>
             </Col>
-          </RowL>
+          </Row>
         </CardContainer>
-      </React.Fragment>
+      </div>
     )
   }
 }
