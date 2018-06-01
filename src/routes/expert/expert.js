@@ -10,16 +10,31 @@
 import React from 'react'
 import styled from 'styled-components'
 import ExpertCard from './expertCard'
+import SubjectCard from './subjectCard'
 
 const StyledRight = styled.div`
-  margin-left: 500px;
-  margin-top: 30px;
+  margin-left: 100px;
+  margin-top: 100px;
+  display: inline-block;
+  vertical-align: top;
+`
+const StyledLeft = styled.div`
+  margin-left: 140px;
+  margin-top: 50px;
+  display: inline-block;
+  vertical-align: top;
 `
 
 class Expert extends React.Component {
   render() {
     return (
-      <div>
+      <div style={{ fontSize: 0 }}>
+        <StyledLeft>
+          <SubjectCard />
+          <SubjectCard />
+          <SubjectCard />
+          <SubjectCard />
+        </StyledLeft>
         <StyledRight>
           <ExpertCard />
           <ExpertCard />

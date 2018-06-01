@@ -26,12 +26,12 @@ const routes = {
       load: () => import(/* webpackChunkName: 'about' */ './about')
     },
     {
-      path: '/privacy',
-      load: () => import(/* webpackChunkName: 'privacy' */ './privacy')
-    },
-    {
       path: '/expert',
       load: () => import(/* webpackChunkName: 'expert' */ './expert')
+    },
+    {
+      path: '/commodity',
+      load: () => import(/* webpackChunkName: 'commodity' */ './commodity')
     },
     // Wildcard routes, e.g. { path: '(.*)', ... } (must go last)
     {

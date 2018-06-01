@@ -1,11 +1,11 @@
 import React from 'react'
 import { Card } from 'antd'
-import { trans } from 'utils'
+import { InjectClass } from 'utils/HOC'
 import styled from 'styled-components'
 import p from './expert.jpeg'
 
-const StyledCard = styled(trans(Card))`
-  width: 460px;
+const StyledCard = styled(InjectClass(Card))`
+  width: 500px;
   display: inline-block;
   vertical-align: top;
 `
@@ -13,6 +13,8 @@ const StyledImg = styled.div`
   width: 200px;
   display: inline-block;
   vertical-align: top;
+  border-style: solid;
+  border-width: 1px;
 `
 const StyledExpert = styled.div`
   margin-bottom: 20px;
@@ -21,7 +23,7 @@ const StyledExpert = styled.div`
   font-size: 0;
 `
 
-class Expert extends React.Component {
+class ExpertCard extends React.Component {
   render() {
     return (
       <StyledExpert>
@@ -39,4 +41,4 @@ class Expert extends React.Component {
   }
 }
 
-export default Expert
+export default ExpertCard
