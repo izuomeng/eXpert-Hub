@@ -76,6 +76,7 @@
     "browser-sync": "^2.23.6",
     "chokidar": "^2.0.2",
     "css-loader": "^0.28.11",
+    "echarts": "^4.1.0",
     "enzyme": "^3.3.0",
     "eslint": "^4.19.0",
     "eslint-config-airbnb": "^16.1.0",
