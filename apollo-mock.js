@@ -1,46 +1,7 @@
 const { ApolloServer, gql } = require('apollo-server')
 const Mock = require('mockjs')
 
-// This is a (sample) collection of books we'll be able to query
-// the GraphQL server for.  A more complete example might fetch
-// from an existing data source like a REST API or database.
-const users = [
-  {
-    name: 'Tom Hanks',
-    age: 20,
-    gender: 0
-  },
-  {
-    name: 'Ware Smith',
-    age: 28,
-    gender: 0
-  },
-  {
-    name: 'Cherry Dosen',
-    age: 16,
-    gender: 1
-  },
-  {
-    name: 'Jekky Chan',
-    age: 46,
-    gender: 0
-  }
-]
-
-// Type definitions define the "shape" of your data and specify
-// which ways the data can be fetched from the GraphQL server.
 const typeDefs = gql`
-  # enum Gender {
-  #   MALE
-  #   FEMALE
-  # }
-
-  type TestUser {
-    name: String!
-    age: Int
-    gender: Int
-  }
-
   type Account {
     name: String!
     role: [String]!
@@ -61,7 +22,7 @@ const typeDefs = gql`
   }
 
   enum Role {
-    VISITER
+    NORMAL
     EXPERT
     ADMIN
   }
@@ -71,21 +32,6 @@ const typeDefs = gql`
     FEMALE
   }
 
-  type Institute {
-    id: ID!
-    name: String!
-    role: Role!
-    email: String
-    phone: String
-  }
-
-  input InstituteInput {
-    id: ID!
-    name: String!
-    email: String
-    phone: String
-  }
-
   type User {
     id: ID!
     name: String!
@@ -93,8 +39,12 @@ const typeDefs = gql`
     email: String
     phone: String
     gender: Gender
+    # 身份证号
+    idcard: String
     # 所属机构
-    institute: Institute
+    institute: String
+    # 是否处于需要管理员认证的状态
+    pending: Int
   }
 
   input UserInput {
@@ -103,6 +53,8 @@ const typeDefs = gql`
     email: String
     phone: String
     gender: Gender
+    idcard: String
+    institute: String
   }
 
   type TechResource {
@@ -114,70 +66,89 @@ const typeDefs = gql`
     price: Float!
     # 文件类型
     type: FileType
+    # 文件说明
     description: String
     # 文件所有者
-    user: User!
-    keyword: [String!]
+    owner: User!
+    # 允许下载的人
+    permitted: [User!]
+    # 评论
+    comment: [String!]
+    # 资源机构信息
+    institute: String
   }
 
   scalar Upload
 
   type Query {
-    getTestUserList: [TestUser]
-    getTestUser(name: String!): TestUser
-    getAccount: Account
-    getCategoryList: [Category]
+    account: Account
+    categories: [Category]
 
-    # 获取某个user上传的所有文件
-    getFilesByUser(id: ID!): [TechResource!]
-    # 获取全部资源列表
-    getFileList: [TechResource!]
-    # 获取某个user的信息
-    getUserInfo(id: ID!): User
-    # 获取某类型的user列表，type为空则返回所有类型的user
-    getUserList(type: Role): [User!]
-    # 获取某个机构的信息
-    getInstituteInfo(id: ID!): Institute
-    # 获取某类型的机构列表，type为空则返回所有类型的机构
-    getInstituteList(type: Role): [Institute!]
+    # 获取资源，根据用户ID或者资源ID，都不指定则返回全部资源
+    resources(userId: ID, resourceId: ID): [TechResource!]
+    # 获取用户，根据用户ID或者用户类型，都不指定则为全部用户
+    users(id: ID, role: Role): [User!]
   }
 
   type Mutation {
     # 上传文件
-    uploadFile(file: Upload!, id: ID!): TechResource
+    createResource(file: Upload!, id: ID!): TechResource
     # 删除文件
-    removeFile(id: ID!): TechResource
+    removeResource(id: ID!): TechResource
     # 更新user信息
     updateUser(info: UserInput!): User
     # 创建user
     createUser(info: UserInput!): User
     # 删除user
     removeUser(id: ID!): User
-    # 更新机构信息
-    updateInstitute(info: InstituteInput!): Institute
-    # 创建机构
-    createInstitute(info: InstituteInput!): Institute
-    # 删除机构
-    removeInstitute(id: ID!): Institute
+    # 某个用户购买了某个资源
+    purchase(userId: ID!, resourceId: ID!): Boolean
   }
 `
 
 // Resolvers define the technique for fetching the types in the
 // schema.  We'll retrieve books from the "books" array above.
 const resolvers = {
-  Query: {
-    getTestUserList: () => users,
-    getTestUser(parent, args) {
-      const { name } = args
-      return users.find(user => user.name === name)
+  TechResource: {
+    owner(parent, args) {
+      console.info('user for resource id: ', parent.id, args)
+      // parent is TechResource object
+      return Mock.mock({
+        id: '@guid()',
+        name: '@cname()',
+        role: /NORMAL|EXPERT|ADMIN/,
+        email: '@email()',
+        phone: '@string(number, 11)',
+        gender: /MALE|FEMALE/,
+        institute: '@cname()'
+      })
     },
-    getAccount() {
+    permitted(parent, args) {
+      console.info('permitted user for resource id: ', parent.id, args)
+      const data = Mock.mock({
+        'list|0-5': [
+          {
+            id: '@guid()',
+            name: '@cname()',
+            role: /NORMAL|EXPERT|ADMIN/,
+            email: '@email()',
+            phone: '@string(number, 11)',
+            gender: /MALE|FEMALE/,
+            institute: '@cname()'
+          }
+        ]
+      })
+      return data.list
+    }
+  },
+  Query: {
+    account() {
       return {
         name: 'zuomeng',
         role: ['admin']
       }
     },
-    getCategoryList() {
+    categories() {
       return [
         { name: '力学' },
         { name: '机械工程' },
@@ -189,137 +160,52 @@ const resolvers = {
         { name: '核科学' }
       ]
     },
-    getFilesByUser(parent, args) {
-      console.info('getFilesByUser: ', args)
+    resources(parent, args) {
+      console.info('resouces: ', args)
       const data = Mock.mock({
         'list|1-8': [
           {
             id: '@guid()',
-            name: '@word(1, 10)',
+            name: '@word(1, 10).@word(2,4)',
             url: '@url()',
             price: '@float(100, 10000, 1, 2)',
             type: /PAPER|PATENT|PROJECT/,
             description: '@csentence()',
-            user: {
-              id: '@guid()',
-              name: '@cname()',
-              role: /VISITER|EXPERT|ADMIN/,
-              email: '@email()',
-              phone: '@string(number, 11)',
-              gender: /MALE|FEMALE/,
-              institute: {
-                id: '@guid()',
-                name: '@cword(4, 8)',
-                role: /VISITER|EXPERT|ADMIN/,
-                email: '@email()',
-                phone: '@string(number, 11)'
-              }
-            }
+            'comment|0-10': ['@csentence()'],
+            institute: '@cname()'
           }
         ]
       })
+      if (args.userId) {
+        return data.list
+      } else if (args.resourceId) {
+        return data.list.slice(0, 1)
+      }
       return data.list
     },
-    getFileList() {
-      console.info('getFileList')
-      const data = Mock.mock({
-        'list|10-50': [
-          {
-            id: '@guid()',
-            name: '@word(1, 10)',
-            url: '@url()',
-            price: '@float(100, 10000, 1, 2)',
-            type: /PAPER|PATENT|PROJECT/,
-            description: '@csentence()',
-            user: {
-              id: '@guid()',
-              name: '@cname()',
-              role: /VISITER|EXPERT|ADMIN/,
-              email: '@email()',
-              phone: '@string(number, 11)',
-              gender: /MALE|FEMALE/,
-              institute: {
-                id: '@guid()',
-                name: '@cword(4, 8)',
-                role: /VISITER|EXPERT|ADMIN/,
-                email: '@email()',
-                phone: '@string(number, 11)'
-              }
-            }
-          }
-        ]
-      })
-      return data.list
-    },
-    getUserInfo(parent, args) {
-      console.info('getUserInfo: ', args)
-      return Mock.mock({
-        id: '@guid()',
-        name: '@cname()',
-        role: /VISITER|EXPERT|ADMIN/,
-        email: '@email()',
-        phone: '@string(number, 11)',
-        gender: /MALE|FEMALE/,
-        institute: {
-          id: '@guid()',
-          name: '@cword(4, 8)',
-          role: /VISITER|EXPERT|ADMIN/,
-          email: '@email()',
-          phone: '@string(number, 11)'
-        }
-      })
-    },
-    getUserList() {
-      console.info('getUserList')
+    users(parent, args) {
+      console.info('users: ', args)
       const data = Mock.mock({
         'list|1-20': [
           {
             id: '@guid()',
             name: '@cname()',
-            role: /VISITER|EXPERT|ADMIN/,
+            role: /NORMAL|EXPERT|ADMIN/,
             email: '@email()',
             phone: '@string(number, 11)',
             gender: /MALE|FEMALE/,
-            institute: {
-              id: '@guid()',
-              name: '@cword(4, 8)',
-              role: /VISITER|EXPERT|ADMIN/,
-              email: '@email()',
-              phone: '@string(number, 11)'
-            }
+            institute: '@cname()'
           }
         ]
       })
-      return data.list
-    },
-    getInstituteInfo(parent, args) {
-      console.info('getInstituteInfo: ', args)
-      return Mock.mock({
-        id: '@guid()',
-        name: '@cword(4, 8)',
-        role: /VISITER|EXPERT|ADMIN/,
-        email: '@email()',
-        phone: '@string(number, 11)'
-      })
-    },
-    getInstituteList() {
-      console.info('getInstituteList')
-      const data = Mock.mock({
-        'list|2-10': [
-          {
-            id: '@guid()',
-            name: '@cword(4, 8)',
-            role: /VISITER|EXPERT|ADMIN/,
-            email: '@email()',
-            phone: '@string(number, 11)'
-          }
-        ]
-      })
+      if (args.id) {
+        return data.list.slice(0, 1)
+      }
       return data.list
     }
   },
   Mutation: {
-    removeFile() {
+    createResource() {
       return Mock.mock({
         id: '@guid()',
         name: '@word(1, 10)',
@@ -327,100 +213,61 @@ const resolvers = {
         price: '@float(100, 10000, 1, 2)',
         type: /PAPER|PATENT|PROJECT/,
         description: '@csentence()',
-        user: {
-          id: '@guid()',
-          name: '@cname()',
-          role: /VISITER|EXPERT|ADMIN/,
-          email: '@email()',
-          phone: '@string(number, 11)',
-          gender: /MALE|FEMALE/,
-          institute: {
-            id: '@guid()',
-            name: '@cword(4, 8)',
-            role: /VISITER|EXPERT|ADMIN/,
-            email: '@email()',
-            phone: '@string(number, 11)'
-          }
-        }
+        institute: '@cname()'
+      })
+    },
+    removeResource() {
+      return Mock.mock({
+        id: '@guid()',
+        name: '@word(1, 10)',
+        url: '@url()',
+        price: '@float(100, 10000, 1, 2)',
+        type: /PAPER|PATENT|PROJECT/,
+        description: '@csentence()',
+        institute: '@cname()'
       })
     },
     updateUser() {
       return Mock.mock({
         id: '@guid()',
         name: '@cname()',
+        idcard: '@string(number, 18)',
         role: /VISITER|EXPERT|ADMIN/,
         email: '@email()',
         phone: '@string(number, 11)',
         gender: /MALE|FEMALE/,
-        institute: {
-          id: '@guid()',
-          name: '@cword(4, 8)',
-          role: /VISITER|EXPERT|ADMIN/,
-          email: '@email()',
-          phone: '@string(number, 11)'
-        }
+        institute: '@cname()',
+        pending: '@natural(0,1)'
       })
     },
     createUser() {
       return Mock.mock({
         id: '@guid()',
         name: '@cname()',
+        idcard: '@string(number, 18)',
         role: /VISITER|EXPERT|ADMIN/,
         email: '@email()',
         phone: '@string(number, 11)',
         gender: /MALE|FEMALE/,
-        institute: {
-          id: '@guid()',
-          name: '@cword(4, 8)',
-          role: /VISITER|EXPERT|ADMIN/,
-          email: '@email()',
-          phone: '@string(number, 11)'
-        }
+        institute: '@cname()',
+        pending: '@natural(0,1)'
       })
     },
     removeUser() {
       return Mock.mock({
         id: '@guid()',
         name: '@cname()',
+        idcard: '@string(number, 18)',
         role: /VISITER|EXPERT|ADMIN/,
         email: '@email()',
         phone: '@string(number, 11)',
         gender: /MALE|FEMALE/,
-        institute: {
-          id: '@guid()',
-          name: '@cword(4, 8)',
-          role: /VISITER|EXPERT|ADMIN/,
-          email: '@email()',
-          phone: '@string(number, 11)'
-        }
+        institute: '@cname()',
+        pending: '@natural(0,1)'
       })
     },
-    updateInstitute() {
-      return Mock.mock({
-        id: '@guid()',
-        name: '@cword(4, 8)',
-        role: /VISITER|EXPERT|ADMIN/,
-        email: '@email()',
-        phone: '@string(number, 11)'
-      })
-    },
-    createInstitute() {
-      return Mock.mock({
-        id: '@guid()',
-        name: '@cword(4, 8)',
-        role: /VISITER|EXPERT|ADMIN/,
-        email: '@email()',
-        phone: '@string(number, 11)'
-      })
-    },
-    removeInstitute() {
-      return Mock.mock({
-        id: '@guid()',
-        name: '@cword(4, 8)',
-        role: /VISITER|EXPERT|ADMIN/,
-        email: '@email()',
-        phone: '@string(number, 11)'
-      })
+    purchase() {
+      return true
     }
   }
 }
