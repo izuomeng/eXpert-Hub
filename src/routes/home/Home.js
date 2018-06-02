@@ -29,7 +29,8 @@ class Home extends React.Component {
   }
   static defaultProps = {
     data: {
-      getCategoryList: [{ name: '' }]
+      getCategoryList: [{ name: '' }],
+      loading: true
     }
   }
   render() {
