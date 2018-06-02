@@ -181,7 +181,7 @@ class ResourceTable extends React.Component {
             <Button>层次</Button>
           </Dropdown>
           <Divider type="vertical" />
-          <TimePicker onClick={this.setReleaseTime} />
+          <TimePicker />
         </div>
         <Divider />
         <Table

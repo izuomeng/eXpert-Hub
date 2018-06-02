@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { InjectClass } from 'utils/HOC'
 
 export const Container = styled.div`
   weight: 70%;
