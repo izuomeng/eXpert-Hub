@@ -25,7 +25,20 @@ const routes = {
       path: '/about',
       load: () => import(/* webpackChunkName: 'about' */ './about')
     },
-
+    {
+      path: '/shopping-cart',
+      load: () =>
+        import(/* webpackChunkName: 'shopping-cart' */ './shopping-cart')
+    },
+    {
+      path: '/personal-order',
+      load: () =>
+        import(/* webpackChunkName: 'personal-order' */ './personal-order')
+    },
+    {
+      path: '/my-account',
+      load: () => import(/* webpackChunkName: 'my-account' */ './my-account')
+    },
     // Wildcard routes, e.g. { path: '(.*)', ... } (must go last)
     {
       path: '(.*)',
