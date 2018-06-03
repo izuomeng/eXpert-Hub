@@ -1,7 +1,6 @@
-query A($id: ID!){
-  getFilesByUser(id: $id) {
+query A($resourceId: String){
+  resources(resourceId: $resourceId) {
     name
     price
-    description
   }
 }
