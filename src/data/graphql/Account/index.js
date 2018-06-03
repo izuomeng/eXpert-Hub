@@ -12,23 +12,23 @@ export const schema = [
 
 export const queries = [
   `
-  getAccount: Account
+  account: Account
 `
 ]
 
 export const resolvers = {
   RootQuery: {
-    async getAccount() {
+    async account() {
       const query = gql`
         {
-          getAccount {
+          account {
             name
             role
           }
         }
       `
       const { data } = await apolloFetch({ query })
-      return data.getAccount
+      return data.account
     }
   }
 }

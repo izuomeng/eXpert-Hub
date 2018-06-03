@@ -37,6 +37,7 @@
     "js-cookie": "^2.2.0",
     "jsonwebtoken": "^8.2.0",
     "lodash": "^4.17.5",
+    "moment": "^2.22.2",
     "node-fetch": "^2.1.1",
     "normalize.css": "^8.0.0",
     "pretty-error": "^2.1.1",

@@ -5,7 +5,7 @@ import { setUserInfo } from 'actions/user'
 
 // The top-level (parent) route
 const routes = {
-  path: '',
+  path: '/',
 
   // Keep in mind, routes are evaluated in order
   children: [
@@ -60,22 +60,24 @@ const routes = {
       return route
     }
     const { user } = store.getState()
-    if (!user && cookie.token) {
-      const { data } = await client.query({
-        query: ACCOUNT_INFO
-      })
-      // 提取结果中的用户信息
-      const info = data.getAccount
-      store.dispatch(
-        setUserInfo({
-          ...info
+    console.info(store.getState())
+    // 有token却没有用户信息，去拉取
+    if (cookie.token) {
+      if (!user) {
+        const { data } = await client.query({
+          query: ACCOUNT_INFO
         })
-      )
-    }
-    // 如果有用户数据却访问了登陆页
-    if (user && pathname === '/login') {
-      route.redirect = '/'
-      return route
+        // 提取结果中的用户信息
+        const info = data.account
+        store.dispatch(
+          setUserInfo({
+            ...info
+          })
+        )
+      } else if (pathname === '/login') {
+        route.redirect = '/'
+        return route
+      }
     }
     return route
   }
