@@ -2,12 +2,12 @@ import { DatePicker } from 'antd'
 import moment from 'moment'
 import React from 'react'
 
-const RangePicker = DatePicker.RangePicker
+const { RangePicker } = DatePicker
 
 class TimePicker extends React.Component {
-  onChange(dates, dateStrings) {
-    console.log('From: ', dates[0], ', to: ', dates[1])
-    console.log('From: ', dateStrings[0], ', to: ', dateStrings[1])
+  onChange = (dates, dateStrings) => {
+    console.info('From: ', dates[0], ', to: ', dates[1])
+    console.info('From: ', dateStrings[0], ', to: ', dateStrings[1])
   }
   render() {
     return (

@@ -1,41 +1,30 @@
-import {
-  Table,
-  Input,
-  Button,
-  Icon,
-  DatePicker,
-  Radio,
-  Dropdown,
-  Menu,
-  Divider,
-  Tag
-} from 'antd'
+import { Table, Input, Button, Icon, Dropdown, Menu, Divider } from 'antd'
 import React from 'react'
 import TimePicker from './TimePicker'
 
 const menu1 = (
   <Menu>
     <Menu.Item key="0">
-      <a>工学</a>
+      <span>工学</span>
     </Menu.Item>
     <Menu.Item key="1">
-      <a>力学</a>
+      <span>力学</span>
     </Menu.Item>
     <Menu.Item key="2">
-      <a>机械学</a>
+      <span>机械学</span>
     </Menu.Item>
   </Menu>
 )
 const menu2 = (
   <Menu>
     <Menu.Item key="0">
-      <a>SCI</a>
+      <span>SCI</span>
     </Menu.Item>
     <Menu.Item key="1">
-      <a>EI</a>
+      <span>EI</span>
     </Menu.Item>
     <Menu.Item key="2">
-      <a>sbAI</a>
+      <span>sbAI</span>
     </Menu.Item>
   </Menu>
 )
@@ -83,14 +72,13 @@ class ResourceTable extends React.Component {
     filterDropdownVisible: false,
     data,
     searchText: '',
-    filtered: false,
-    sortedInfo: null
+    filtered: false
   }
   onInputChange = e => {
     this.setState({ searchText: e.target.value })
   }
-  onChange(pagination, filters, sorter) {
-    console.log('params', pagination, filters, sorter)
+  onChange = (pagination, filters, sorter) => {
+    console.info('params', pagination, filters, sorter)
   }
   onSearch = () => {
     const { searchText } = this.state
@@ -108,12 +96,22 @@ class ResourceTable extends React.Component {
             ...record,
             name: (
               <span>
-                {record.name.split(new RegExp(`(?<=${searchText})|(?=${searchText})`, 'i')).map((text, i) => (
-                  text.toLowerCase() === searchText.toLowerCase() ?
-                    <span key={i} className="highlight">{text}</span> : text // eslint-disable-line
-                ))}
+                {record.name
+                  .split(
+                    new RegExp(`(?<=${searchText})|(?=${searchText})`, 'i')
+                  )
+                  .map(
+                    text =>
+                      text.toLowerCase() === searchText.toLowerCase() ? (
+                        <span key={text} className="highlight">
+                          {text}
+                        </span>
+                      ) : (
+                        text
+                      ) // eslint-disable-line
+                  )}
               </span>
-            ),
+            )
           }
         })
         .filter(record => !!record)
