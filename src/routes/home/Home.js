@@ -19,7 +19,7 @@ import Card from './components/Card'
 class Home extends React.Component {
   static propTypes = {
     data: PropTypes.shape({
-      getCategoryList: PropTypes.arrayOf(
+      categories: PropTypes.arrayOf(
         PropTypes.shape({
           name: PropTypes.string.isRequired
         })
@@ -29,20 +29,22 @@ class Home extends React.Component {
   }
   static defaultProps = {
     data: {
-      getCategoryList: [{ name: '' }]
+      categories: [{ name: '' }],
+      loading: true
     }
   }
   render() {
-    const { getCategoryList, loading } = this.props.data
+    const { categories, loading } = this.props.data
     return (
       <React.Fragment>
         <Search />
+        <a href="/professor-info">this is a test</a>
         <Spin spinning={loading}>
           <Main>
             <LeftContainer />
             <RightContainer>
               {!loading &&
-                getCategoryList.map(item => (
+                categories.map(item => (
                   <Card key={item.name} name={item.name} />
                 ))}
             </RightContainer>

@@ -11,15 +11,21 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
-import USER_LIST_QUERY from 'gql/contact/GET_USER.gql'
 import { StyledButton, UserInfo } from './components'
 
 const USER_QUERY = gql`
   query User($name: String!) {
-    getUser(name: $name) {
+    user(name: $name) {
       name
       age
       gender
+    }
+  }
+`
+const USER_LIST_QUERY = gql`
+  {
+    users {
+      name
     }
   }
 `

@@ -1,5 +1,5 @@
-// import gql from 'graphql-tag'
-// import apolloFetch from '../apollo-fetch'
+import gql from 'graphql-tag'
+import apolloFetch from '../apollo-fetch'
 
 export const schema = [
   `
@@ -35,22 +35,17 @@ export const mutation = [
 export const resolvers = {
   RootQuery: {
     async getUserList() {
-      // const query = gql`
-      //   {
-      //     getUserList {
-      //       name
-      //       age
-      //       gender
-      //     }
-      //   }
-      // `
-      // const { data } = await apolloFetch({ query })
-      // return data.getUserList
-      return [
-        { name: 'A', age: 12, gender: 0 },
-        { name: 'B', age: 21, gender: 1 },
-        { name: 'C', age: 15, gender: 0 }
-      ]
+      const query = gql`
+        {
+          getUserList {
+            name
+            age
+            gender
+          }
+        }
+      `
+      const { data } = await apolloFetch({ query })
+      return data.getUserList
     },
     getUser() {
       return { name: 'X', age: 15, gender: 0 }

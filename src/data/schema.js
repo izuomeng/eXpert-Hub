@@ -1,12 +1,6 @@
 import { merge } from 'lodash'
 import { makeExecutableSchema } from 'graphql-tools'
 
-import {
-  schema as NewsSchema,
-  resolvers as NewsResolvers,
-  queries as NewsQueries
-} from './graphql/News/schema'
-
 /* import {
   schema as DatabaseSchema,
   resolvers as DatabaseResolvers,
@@ -29,7 +23,6 @@ const RootQuery = [
   # 2. [Mock your GraphQL API](https://www.apollographql.com/docs/graphql-tools/mocking.html) with fine-grained per-type mocking
   # 3. Automatically [stitch multiple schemas together](https://www.apollographql.com/docs/graphql-tools/schema-stitching.html) into one larger API
   type RootQuery {
-    ${NewsQueries}
     ${UserList.queries}
     ${Account.queries}
   }
@@ -64,14 +57,13 @@ const SchemaDefinition = [
 
 // Merge all of the resolver objects together
 // Put schema together into one array of schema strings
-const resolvers = merge(NewsResolvers, UserList.resolvers, Account.resolvers)
+const resolvers = merge(UserList.resolvers, Account.resolvers)
 
 const schema = [
   ...SchemaDefinition,
   ...RootQuery,
   ...Mutation,
 
-  ...NewsSchema,
   ...UserList.schema,
   ...Account.schema
 ]

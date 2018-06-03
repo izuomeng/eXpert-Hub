@@ -1,0 +1,7 @@
+query A($id: ID!){
+  getFilesByUser(id: $id) {
+    name
+    price
+    description
+  }
+}

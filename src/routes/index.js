@@ -27,12 +27,20 @@ const routes = {
     },
     {
       path: '/expert',
-      load: () => import(/* webpackChunkName: 'expert' */ './expert')
+      load: () => import(/* webpackChunkName: 'expert' */ './expert'),
+      children: [
+        {
+          path: 'professor-info',
+          load: () =>
+            import(/* webpackChunkName: 'professor-info' */ './professor-info')
+        }
+      ]
     },
     {
       path: '/commodity',
       load: () => import(/* webpackChunkName: 'commodity' */ './commodity')
     },
+
     // Wildcard routes, e.g. { path: '(.*)', ... } (must go last)
     {
       path: '(.*)',
