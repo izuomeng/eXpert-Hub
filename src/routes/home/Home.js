@@ -38,6 +38,7 @@ class Home extends React.Component {
     return (
       <React.Fragment>
         <Search />
+        <a href="/professor-info">this is a test</a>
         <Spin spinning={loading}>
           <Main>
             <LeftContainer />
