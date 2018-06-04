@@ -38,9 +38,10 @@ class Header extends React.Component {
       <Container>
         <SmallNav>
           {token ? <Link to="/">个人中心</Link> : <Link to="/login">登陆</Link>}
-          <Link to="/">购物车</Link>
           <Link to="/">主页</Link>
-          <Link to="/expert">专家</Link>
+          <Link to="/expert">专家列表</Link>
+          <Link to="/cart">购物车</Link>
+          <Link to="/orders">我的订单</Link>
         </SmallNav>
         {/* <Navigation pathname={pathname} /> */}
       </Container>

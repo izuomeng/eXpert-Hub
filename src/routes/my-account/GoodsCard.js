@@ -74,7 +74,7 @@ class GoodsCard extends React.Component {
               <TitleContainer>
                 <Title>
                   <p>交易成功</p>
-                  <a href="/">查看订单</a>
+                  <a href="/orders/123456">查看订单</a>
                 </Title>
               </TitleContainer>
             </Col>

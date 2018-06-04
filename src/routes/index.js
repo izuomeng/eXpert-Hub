@@ -18,24 +18,30 @@ const routes = {
       path: '/register',
       load: () => import(/* webpackChunkName: 'register' */ './register')
     },
-    {
-      path: '/about',
-      load: () => import(/* webpackChunkName: 'about' */ './about')
-    },
+    // 购物车
     {
       path: '/cart',
       load: () =>
         import(/* webpackChunkName: 'shopping-cart' */ './shopping-cart')
     },
+    // 我的订单列表
     {
-      path: '/order',
-      load: () =>
-        import(/* webpackChunkName: 'personal-order' */ './personal-order')
+      path: '/orders',
+      children: [
+        {
+          path: '',
+          load: () =>
+            import(/* webpackChunkName: 'my-account' */ './my-account')
+        },
+        // 单个订单详情
+        {
+          path: '/:id',
+          load: () =>
+            import(/* webpackChunkName: 'personal-order' */ './personal-order')
+        }
+      ]
     },
-    {
-      path: '/account',
-      load: () => import(/* webpackChunkName: 'my-account' */ './my-account')
-    },
+    // 专家列表
     {
       path: '/expert',
       children: [
@@ -43,6 +49,7 @@ const routes = {
           path: '',
           load: () => import(/* webpackChunkName: 'expert' */ './expert')
         },
+        // 专家详情
         {
           path: '/:id',
           load: () =>
@@ -50,6 +57,7 @@ const routes = {
         }
       ]
     },
+    // 商品列表
     {
       path: '/commodity',
       load: () => import(/* webpackChunkName: 'commodity' */ './commodity')
