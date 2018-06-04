@@ -8,16 +8,15 @@
  */
 
 import React from 'react'
-import ProfessorInfo from './ProfessorInfo'
+import Expert from './expert'
 import Layout from '../../components/Layout'
 
-async function action() {
+function action() {
   return {
-    title: 'Professor Info page',
-    chunks: ['professor-info'],
+    chunks: ['expert'],
     component: (
       <Layout>
-        <ProfessorInfo />
+        <Expert />
       </Layout>
     )
   }
