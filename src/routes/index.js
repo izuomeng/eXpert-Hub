@@ -24,10 +24,13 @@ const routes = {
     },
     {
       path: '/expert',
-      load: () => import(/* webpackChunkName: 'expert' */ './expert'),
       children: [
         {
-          path: 'professor-info',
+          path: '',
+          load: () => import(/* webpackChunkName: 'expert' */ './expert')
+        },
+        {
+          path: '/:id',
           load: () =>
             import(/* webpackChunkName: 'professor-info' */ './professor-info')
         }

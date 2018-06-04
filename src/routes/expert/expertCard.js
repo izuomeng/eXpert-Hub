@@ -35,6 +35,7 @@ class ExpertCard extends React.Component {
             2003获得北京航空航天大学计算机学院计算机软件与理论硕士学位，现任软件学院软件工程与管理专业实践指导主任。曾参加IBM
             Rational培训和Microsoft体系架构师A2K2000培训。目前主要关注面向对象技术领域发展，对系统集成和数据库设计和管理也有一定的项目经历。是软件学院“面向对象的程序设计”等专业课程的主讲教师。
           </p>
+          <a href="/expert/123456">查看个人主页</a>
         </StyledCard>
       </StyledExpert>
     )
