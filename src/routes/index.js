@@ -23,6 +23,20 @@ const routes = {
       load: () => import(/* webpackChunkName: 'about' */ './about')
     },
     {
+      path: '/cart',
+      load: () =>
+        import(/* webpackChunkName: 'shopping-cart' */ './shopping-cart')
+    },
+    {
+      path: '/order',
+      load: () =>
+        import(/* webpackChunkName: 'personal-order' */ './personal-order')
+    },
+    {
+      path: '/account',
+      load: () => import(/* webpackChunkName: 'my-account' */ './my-account')
+    },
+    {
       path: '/expert',
       children: [
         {
@@ -40,7 +54,6 @@ const routes = {
       path: '/commodity',
       load: () => import(/* webpackChunkName: 'commodity' */ './commodity')
     },
-
     // Wildcard routes, e.g. { path: '(.*)', ... } (must go last)
     {
       path: '(.*)',
