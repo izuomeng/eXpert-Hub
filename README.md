@@ -13,17 +13,11 @@ node: >= 6.13
 npm: >= 3.10
 ```
 
-将项目克隆至本地后，先切换到项目根目录下，打开一个终端运行下面这个指令(启动 mock 服务器)
+将项目克隆至本地后，切换到项目根目录下，打开终端运行下列指令(mock 服务已部署到云服务器)
 
 ```shell
 $ npm install yarn -g
 $ yarn
-$ node apollo-mock.js
-```
-
-接下来再打开一个新的终端窗口，运行：
-
-```shell
 $ yarn start
 ```
 
@@ -68,3 +62,7 @@ $ yarn run lint
 ```
 
 并检查报错，如果有错则改正之后再提交，否则 commit 会失败，推荐下载 Eslint 插件和 prettier 插件，并将 prettier 的 format 触发条件设置为保存后自动触发，关于如何设置，请参考 prettier 插件的介绍页面
+
+### 数据资源服务 mock 服务地址
+
+http://47.95.224.52:4000/
