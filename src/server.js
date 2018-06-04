@@ -21,6 +21,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/server'
 import { getDataFromTree } from 'react-apollo'
 import PrettyError from 'pretty-error'
+import apolloFetch from './data/graphql/apollo-fetch'
 import createApolloClient from './core/createApolloClient'
 import App from './components/App'
 import Html from './components/Html'
@@ -34,6 +35,8 @@ import chunks from './chunk-manifest.json' // eslint-disable-line import/no-unre
 import configureStore from './store/configureStore'
 import { setRuntimeVariable } from './actions/runtime'
 import config from './config'
+import ACCOUNT_INFO from './gql/account/ACCOUNT_INFO.gql'
+import { setUserInfo } from './actions/user'
 
 process.on('unhandledRejection', (reason, p) => {
   console.error('Unhandled Rejection at:', p, 'reason:', reason)
@@ -151,7 +154,7 @@ app.get('*', async (req, res, next) => {
     })
 
     const initialState = {
-      user: req.user || null
+      user: {}
     }
 
     const store = configureStore(initialState, {
@@ -160,14 +163,31 @@ app.get('*', async (req, res, next) => {
       // I should not use `history` on server.. but how I do redirection? follow universal-router
       history: null
     })
-
+    // 提前抓去用户信息，判断登录状态
+    const cookie = req.cookies
+    const pathname = req.path
+    if (!cookie.token && pathname !== '/login') {
+      return res.redirect('/login')
+    }
+    if (cookie.token && pathname === '/login') {
+      return res.redirect('/')
+    }
+    const { data: accountData } = await apolloFetch({
+      query: ACCOUNT_INFO
+    })
+    // 提取结果中的用户信息
+    const info = accountData.account
+    store.dispatch(
+      setUserInfo({
+        ...info
+      })
+    )
     store.dispatch(
       setRuntimeVariable({
         name: 'initialNow',
-        value: Date.now()
+        value: new Date().toString()
       })
     )
-
     // Global (context) variables that can be easily accessed from any React component
     // https://facebook.github.io/react/docs/context.html
     const context = {
@@ -187,8 +207,7 @@ app.get('*', async (req, res, next) => {
     const route = await router.resolve(context)
 
     if (route.redirect) {
-      res.redirect(route.status || 302, route.redirect)
-      return
+      return res.redirect(route.status || 302, route.redirect)
     }
 
     const data = { ...route }

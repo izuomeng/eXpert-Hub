@@ -1,11 +1,10 @@
 import gql from 'graphql-tag'
-import apolloFetch from '../apollo-fetch'
 
 export const schema = [
   `
   type Account {
     name: String!
-    role: [String]!
+    role: String!
   }
 `
 ]
@@ -19,6 +18,7 @@ export const queries = [
 export const resolvers = {
   RootQuery: {
     async account() {
+      // eslint-disable-next-line
       const query = gql`
         {
           account {
@@ -27,8 +27,12 @@ export const resolvers = {
           }
         }
       `
-      const { data } = await apolloFetch({ query })
-      return data.account
+      // const { data } = await apolloFetch({ query })
+      // return data.account
+      return {
+        name: 'cyf',
+        role: '123'
+      }
     }
   }
 }
