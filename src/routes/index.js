@@ -18,6 +18,11 @@ const routes = {
       path: '/register',
       load: () => import(/* webpackChunkName: 'register' */ './register')
     },
+    // 个人中心
+    {
+      path: '/me',
+      load: () => import(/* webpackChunkName: 'user-center' */ './user-center')
+    },
     // 购物车
     {
       path: '/cart',
