@@ -9,22 +9,32 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Layout } from 'antd'
 import withStyles from 'isomorphic-style-loader/lib/withStyles'
 import s from './Register.css'
 
+import WrappedRegistrationForm from './components/WrappedRegistrationForm'
+
+const { Content } = Layout
+
 class Register extends React.Component {
   static propTypes = {
-    title: PropTypes.string.isRequired
+    client: PropTypes.shape({
+      query: PropTypes.func.isRequired
+    }).isRequired
   }
 
   render() {
     return (
-      <div className={s.root}>
-        <div className={s.container}>
-          <h1>{this.props.title}</h1>
-          <p>coming soon</p>
-        </div>
-      </div>
+      <Layout className="layout">
+        <Content>
+          <div className={s.root}>
+            <div className={s.container}>
+              <WrappedRegistrationForm client={this.props.client} />
+            </div>
+          </div>
+        </Content>
+      </Layout>
     )
   }
 }
