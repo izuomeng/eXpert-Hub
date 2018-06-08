@@ -37,7 +37,11 @@ class Header extends React.Component {
     return (
       <Container>
         <SmallNav>
-          {token ? <Link to="/">个人中心</Link> : <Link to="/login">登陆</Link>}
+          {token ? (
+            <Link to="/me">个人中心</Link>
+          ) : (
+            <Link to="/login">登陆</Link>
+          )}
           <Link to="/">主页</Link>
           <Link to="/expert">专家列表</Link>
           <Link to="/cart">购物车</Link>
