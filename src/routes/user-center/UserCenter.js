@@ -4,6 +4,7 @@ import { Menu, Layout } from 'antd'
 import SidebarHeader from './components/SidebarHeader'
 import { SiderContainer, Container } from './components'
 import Home from './components/Home'
+import Recharge from './components/Recharge'
 
 const { Content } = Layout
 
@@ -57,6 +58,7 @@ class UserCenter extends React.Component {
         </SiderContainer>
         <Content style={{ padding: '20px' }}>
           {current === '11' && <Home />}
+          {current === '13' && <Recharge uid="0001" />}
         </Content>
       </Container>
     )

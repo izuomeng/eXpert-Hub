@@ -3,32 +3,11 @@ import styled from 'styled-components'
 import { List, Tag, Button } from 'antd'
 import PropTypes from 'prop-types'
 import { InjectClass } from 'utils/HOC'
-
-const Title = styled.h2`
-  color: rgb(97, 97, 97);
-  margin-top: 20px;
-`
+import { Title, Item } from './index'
 
 const Container = styled.div`
   margin: 0 auto;
   max-width: 750px;
-`
-
-const Item = ({ item, className }) => (
-  <div className={className}>
-    {item.key}
-    <span style={{ display: 'inline-block', float: 'right' }}>
-      {item.value}
-    </span>
-  </div>
-)
-Item.propTypes = {
-  item: PropTypes.object.isRequired
-}
-
-const StyledItem = styled(Item)`
-  padding: 16px 22px;
-  border-bottom: 1px solid #e8e8e8;
 `
 
 const StyledTag = styled(InjectClass(Tag))`
@@ -51,14 +30,14 @@ const Home = ({ info, money }) => (
     <List
       size="large"
       dataSource={info}
-      renderItem={item => <StyledItem item={item} />}
+      renderItem={item => <Item item={item} />}
     />
     <Title>积分</Title>
     <List
       size="large"
       dataSource={[money]}
       renderItem={item => (
-        <StyledItem item={{ key: '积分余额', value: item.remain }} />
+        <Item item={{ key: '积分余额', value: item.remain }} />
       )}
     />
     <Logout>
