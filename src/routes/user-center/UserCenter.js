@@ -1,14 +1,8 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
-import { InjectClass } from 'utils/HOC'
-import styled from 'styled-components'
-import { Menu, Row, Col, Layout, Card, Button } from 'antd'
+import { Menu, Row, Col, Layout, Button } from 'antd'
 import SidebarHeader from './components/SidebarHeader'
-
-const MyCard = styled(InjectClass(Card))`
-  margin: 1em 1em 1em 1em;
-  height: 100px;
-`
+import { MyCard, SiderContainer, Container } from './components'
 
 class UserCenter extends React.Component {
   /* static propTypes = {
@@ -35,13 +29,14 @@ class UserCenter extends React.Component {
   }
   render() {
     return (
-      <Layout>
-        <Layout.Sider>
+      <Container>
+        <SiderContainer>
           <Menu
             onClick={this.handleClick}
             // style={{ width: 256 }}
             defaultSelectedKeys={['11']}
             mode="inline"
+            style={{ minHeight: '100%' }}
           >
             <SidebarHeader />
             <Menu.ItemGroup title="个人中心">
@@ -57,7 +52,7 @@ class UserCenter extends React.Component {
               <Menu.Item key="32"> 发布资源 </Menu.Item>
             </Menu.ItemGroup>
           </Menu>
-        </Layout.Sider>
+        </SiderContainer>
         <Layout.Content>
           <Row>
             <Col span={16}>
@@ -78,7 +73,7 @@ class UserCenter extends React.Component {
             </Col>
           </Row>
         </Layout.Content>
-      </Layout>
+      </Container>
     )
   }
 }
