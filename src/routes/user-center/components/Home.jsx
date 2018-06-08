@@ -3,12 +3,7 @@ import styled from 'styled-components'
 import { List, Tag, Button } from 'antd'
 import PropTypes from 'prop-types'
 import { InjectClass } from 'utils/HOC'
-import { Title, Item } from './index'
-
-const Container = styled.div`
-  margin: 0 auto;
-  max-width: 750px;
-`
+import { Title, Item, Main } from './index'
 
 const StyledTag = styled(InjectClass(Tag))`
   vertical-align: 3px;
@@ -23,7 +18,7 @@ const Logout = styled.div`
 `
 
 const Home = ({ info, money }) => (
-  <Container>
+  <Main>
     <Title>
       个人信息<StyledTag color="green">专家</StyledTag>
     </Title>
@@ -43,7 +38,7 @@ const Home = ({ info, money }) => (
     <Logout>
       <Button type="danger">退出登录</Button>
     </Logout>
-  </Container>
+  </Main>
 )
 Home.propTypes = {
   info: PropTypes.arrayOf(

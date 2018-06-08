@@ -1,23 +1,21 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import { Menu, Layout } from 'antd'
+import { connect } from 'react-redux'
+import PURCHASED_RESOURCE from 'gql/user-center/PURCHASED_RESOURCE.gql'
+import UPLOADED_RESOURCE from 'gql/user-center/UPLOADED_RESOURCE.gql'
 import SidebarHeader from './components/SidebarHeader'
 import { SiderContainer, Container } from './components'
 import Home from './components/Home'
 import Recharge from './components/Recharge'
+import ResourceList from './components/ResourceList'
 
 const { Content } = Layout
 
 class UserCenter extends React.Component {
-  /* static propTypes = {
-    list: PropTypes.arrayOf(
-      PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        age: PropTypes.number,
-        gender: PropTypes.number
-      })
-    ).isRequired
-  } */
+  static propTypes = {
+    id: PropTypes.string.isRequired
+  }
   state = {
     current: '11'
   }
@@ -31,6 +29,7 @@ class UserCenter extends React.Component {
   }
   render() {
     const { current } = this.state
+    const { id } = this.props
     return (
       <Container>
         <SiderContainer>
@@ -59,10 +58,24 @@ class UserCenter extends React.Component {
         <Content style={{ padding: '20px' }}>
           {current === '11' && <Home />}
           {current === '13' && <Recharge uid="0001" />}
+          {current === '21' && (
+            <ResourceList
+              variables={{ userId: id }}
+              gqlTag={PURCHASED_RESOURCE}
+            />
+          )}
+          {current === '31' && (
+            <ResourceList
+              variables={{ ownerId: id }}
+              gqlTag={UPLOADED_RESOURCE}
+            />
+          )}
         </Content>
       </Container>
     )
   }
 }
-
-export default UserCenter
+const mapState = state => ({
+  id: state.user.id
+})
+export default connect(mapState, null)(UserCenter)

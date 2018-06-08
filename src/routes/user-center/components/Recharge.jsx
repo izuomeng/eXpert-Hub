@@ -4,16 +4,12 @@ import { Radio, Button } from 'antd'
 import { InjectClass } from 'utils/HOC'
 import styled from 'styled-components'
 import { RECHARGE_AMOUNT } from '../../../constants'
-import { Title } from './index'
+import { Title, Main } from './index'
 
 const StyledRadio = styled(InjectClass(Radio))`
   display: block !important;
   height: 30px;
   line-height: 50px !important;
-`
-const Container = styled.div`
-  margin: 0 auto;
-  max-width: 750px;
 `
 
 const Item = styled.h2`
@@ -43,7 +39,7 @@ class Recharge extends Component {
   render() {
     const { value } = this.state
     return (
-      <Container>
+      <Main>
         <Title>选择套餐</Title>
         <Radio.Group onChange={this.onChange} value={value}>
           {RECHARGE_AMOUNT.map(item => (
@@ -53,12 +49,12 @@ class Recharge extends Component {
           ))}
         </Radio.Group>
         <Item>
-          金额: <span>{value}</span>
+          金额: <span>{value}元</span>
         </Item>
         <Purchase>
           <Button type="primary">购买</Button>
         </Purchase>
-      </Container>
+      </Main>
     )
   }
 }

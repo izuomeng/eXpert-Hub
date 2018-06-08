@@ -182,11 +182,7 @@ app.get('*', async (req, res, next) => {
     })
     // 提取结果中的用户信息
     const info = accountData.account
-    store.dispatch(
-      setUserInfo({
-        ...info
-      })
-    )
+    store.dispatch(setUserInfo(info))
     store.dispatch(
       setRuntimeVariable({
         name: 'initialNow',

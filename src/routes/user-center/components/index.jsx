@@ -14,6 +14,11 @@ export const Container = styled(InjectClass(Layout))`
   background-color: #fff !important;
 `
 
+export const Main = styled.div`
+  margin: 0 auto;
+  max-width: 750px;
+`
+
 export const SiderContainer = styled(InjectClass(Layout.Sider))`
   min-height: calc(100vh - 52px);
 `
