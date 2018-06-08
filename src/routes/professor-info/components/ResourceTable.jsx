@@ -107,7 +107,7 @@ class ResourceTable extends React.Component {
                           {text}
                         </span>
                       ) : (
-                        text
+                        <span key={text}>{text}</span>
                       ) // eslint-disable-line
                   )}
               </span>

@@ -15,11 +15,11 @@ import CommodityMessage from './compoents/commodityMessage'
 class Commodity extends React.Component {
   render() {
     return (
-      <div>
+      <React.Fragment>
         <CommodityBread />
         <CommodityCard />
         <CommodityMessage />
-      </div>
+      </React.Fragment>
     )
   }
 }

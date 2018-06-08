@@ -166,10 +166,15 @@ app.get('*', async (req, res, next) => {
     // 提前抓去用户信息，判断登录状态
     const cookie = req.cookies
     const pathname = req.path
-    if (!cookie.token && pathname !== '/login') {
-      return res.redirect('/login')
-    }
-    if (cookie.token && pathname === '/login') {
+    const whiteList = ['/login', '/register']
+    // 如果没有token
+    if (!cookie.token) {
+      // 如果不是去白名单页面，重定向到登陆页
+      if (whiteList.indexOf(pathname) < 0) {
+        return res.redirect('/login')
+      }
+      // 如果有token并且要去注册和登陆页
+    } else if (pathname === '/login' || pathname === '/register') {
       return res.redirect('/')
     }
     const { data: accountData } = await apolloFetch({

@@ -62,7 +62,7 @@ class CommodityCard extends React.Component {
           <StyledRight>
             {!loading &&
               resources.map(item => (
-                <StyledCard title={item.name}>
+                <StyledCard title={item.name} key={item.name}>
                   <p>评价（3）|已销售（4）</p>
                   <p>价格：{item.price}元</p>
                 </StyledCard>
