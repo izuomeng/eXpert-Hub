@@ -11,9 +11,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Layout } from 'antd'
 import withStyles from 'isomorphic-style-loader/lib/withStyles'
+import WrappedRegistrationForm from 'components/Form/WrappedRegistrationForm'
+import REGISTER from 'gql/register/REGISTER.gql'
 import s from './Register.css'
-
-import WrappedRegistrationForm from './components/WrappedRegistrationForm'
 
 const { Content } = Layout
 
@@ -30,7 +30,10 @@ class Register extends React.Component {
         <Content>
           <div className={s.root}>
             <div className={s.container}>
-              <WrappedRegistrationForm client={this.props.client} />
+              <WrappedRegistrationForm
+                client={this.props.client}
+                gql={REGISTER}
+              />
             </div>
           </div>
         </Content>

@@ -1,7 +1,6 @@
 import React from 'react'
 import { Form, Input, Tooltip, Icon, Select, Row, Checkbox, Button } from 'antd'
 import PropTypes from 'prop-types'
-import REGISTER from 'gql/home/REGISTER.gql'
 
 const FormItem = Form.Item
 const { Option } = Select
@@ -9,13 +8,35 @@ const { Option } = Select
 class RegistrationForm extends React.Component {
   static propTypes = {
     client: PropTypes.shape({
-      mutation: PropTypes.func.isRequired
+      mutate: PropTypes.func.isRequired
     }).isRequired,
     form: PropTypes.shape({
       validateFieldsAndScroll: PropTypes.func.isRequired,
       getFieldDecorator: PropTypes.func.isRequired
-    }).isRequired
+    }).isRequired,
+    gql: PropTypes.object.isRequired,
+    storedValue: PropTypes.shape({
+      name: PropTypes.string,
+      email: PropTypes.string,
+      phone: PropTypes.string,
+      idcard: PropTypes.string,
+      password: PropTypes.string,
+      institute: PropTypes.string,
+      profession: PropTypes.string
+    })
   }
+  static defaultProps = {
+    storedValue: {
+      name: null,
+      email: null,
+      phone: null,
+      idcard: null,
+      password: null,
+      institute: null,
+      profession: 'manager'
+    }
+  }
+
   state = {
     confirmDirty: false,
     mode: 'User',
@@ -36,7 +57,7 @@ class RegistrationForm extends React.Component {
         const { client } = this.props
         requestAnimationFrame(async () => {
           const { data } = await client.mutate({
-            mutation: REGISTER,
+            mutation: this.props.gql,
             variables: {
               info_form: this.state.param
             }
@@ -118,6 +139,7 @@ class RegistrationForm extends React.Component {
           }
         >
           {getFieldDecorator('username', {
+            initialValue: this.props.storedValue.name,
             rules: [
               {
                 required: true,
@@ -129,6 +151,7 @@ class RegistrationForm extends React.Component {
         </FormItem>
         <FormItem {...formItemLayout} label="Password">
           {getFieldDecorator('password', {
+            initialValue: this.props.storedValue.password,
             rules: [
               {
                 required: true,
@@ -142,6 +165,7 @@ class RegistrationForm extends React.Component {
         </FormItem>
         <FormItem {...formItemLayout} label="Confirm Password">
           {getFieldDecorator('confirm', {
+            initialValue: this.props.storedValue.password,
             rules: [
               {
                 required: true,
@@ -156,6 +180,7 @@ class RegistrationForm extends React.Component {
 
         <FormItem {...formItemLayout} label="E-mail">
           {getFieldDecorator('email', {
+            initialValue: this.props.storedValue.email,
             rules: [
               {
                 type: 'email',
@@ -170,6 +195,7 @@ class RegistrationForm extends React.Component {
         </FormItem>
         <FormItem {...formItemLayout} label="Phone Number">
           {getFieldDecorator('phone', {
+            initialValue: this.props.storedValue.phone,
             rules: [
               { required: true, message: 'Please input your phone number!' }
             ]
@@ -177,6 +203,7 @@ class RegistrationForm extends React.Component {
         </FormItem>
         <FormItem {...formItemLayout} label="ID card Number">
           {getFieldDecorator('ID_card_number', {
+            initialValue: this.props.storedValue.idcard,
             rules: [
               { required: true, message: 'Please input your ID card number!' }
             ]
@@ -195,6 +222,7 @@ class RegistrationForm extends React.Component {
         {this.state.mode === 'Expert' ? (
           <FormItem {...formItemLayout} label="Profession">
             {getFieldDecorator('profession', {
+              initialValue: this.props.storedValue.profession,
               rules: [{ required: true }]
             })(
               <Select
@@ -214,13 +242,14 @@ class RegistrationForm extends React.Component {
         {this.state.mode === 'Expert' ? (
           <FormItem {...formItemLayout} label="Institute">
             {getFieldDecorator('institute', {
+              initialValue: this.props.storedValue.institute,
               rules: [{ required: true }]
             })(<Input />)}
           </FormItem>
         ) : null}
         {this.state.mode === 'Expert' ? (
           <FormItem {...formItemLayout} label="Picture for valid certificate">
-            {getFieldDecorator('institute', {
+            {getFieldDecorator('valid_picture', {
               rules: [{ required: true }]
             })(<Input />)}
           </FormItem>
