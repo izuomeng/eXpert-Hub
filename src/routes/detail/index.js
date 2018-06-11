@@ -8,15 +8,16 @@
  */
 
 import React from 'react'
-import Commodity from './commodity'
+import Detail from './Detail'
 import Layout from '../../components/Layout'
 
-function action() {
+async function action() {
   return {
-    chunks: ['commodity'],
+    title: 'Detail',
+    chunks: ['detail'],
     component: (
       <Layout>
-        <Commodity />
+        <Detail />
       </Layout>
     )
   }

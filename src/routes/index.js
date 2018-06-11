@@ -6,9 +6,30 @@ const routes = {
 
   // Keep in mind, routes are evaluated in order
   children: [
+    // 首页变成了资源列表
     {
       path: '',
-      load: () => import(/* webpackChunkName: 'home' */ './home')
+      children: [
+        // 资源列表
+        {
+          path: '',
+          load: () => import(/* webpackChunkName: 'resources' */ './resources')
+        },
+        {
+          path: '/resources',
+          load: () => import(/* webpackChunkName: 'resources' */ './resources')
+        },
+        // 资源详情
+        {
+          path: '/resources/:id',
+          load: () => import(/* webpackChunkName: 'detail' */ './detail')
+        },
+        // 资源附属资源
+        {
+          path: '/attached/:id',
+          load: () => import(/* webpackChunkName: 'attached' */ './attached')
+        }
+      ]
     },
     {
       path: '/login',
@@ -20,31 +41,8 @@ const routes = {
     },
     // 个人中心
     {
-      path: '/me',
+      path: '/account',
       load: () => import(/* webpackChunkName: 'user-center' */ './user-center')
-    },
-    // 购物车
-    {
-      path: '/cart',
-      load: () =>
-        import(/* webpackChunkName: 'shopping-cart' */ './shopping-cart')
-    },
-    // 我的订单列表
-    {
-      path: '/orders',
-      children: [
-        {
-          path: '',
-          load: () =>
-            import(/* webpackChunkName: 'my-account' */ './my-account')
-        },
-        // 单个订单详情
-        {
-          path: '/:id',
-          load: () =>
-            import(/* webpackChunkName: 'personal-order' */ './personal-order')
-        }
-      ]
     },
     // 专家列表
     {
@@ -52,20 +50,16 @@ const routes = {
       children: [
         {
           path: '',
-          load: () => import(/* webpackChunkName: 'expert' */ './expert')
+          load: () =>
+            import(/* webpackChunkName: 'expert-list' */ './expert-list')
         },
         // 专家详情
         {
           path: '/:id',
           load: () =>
-            import(/* webpackChunkName: 'professor-info' */ './professor-info')
+            import(/* webpackChunkName: 'expert-info' */ './expert-info')
         }
       ]
-    },
-    // 商品列表
-    {
-      path: '/commodity',
-      load: () => import(/* webpackChunkName: 'commodity' */ './commodity')
     },
     // Wildcard routes, e.g. { path: '(.*)', ... } (must go last)
     {
@@ -78,7 +72,7 @@ const routes = {
     // Execute each child route until one of them return the result
     const route = await next()
     // Provide default values for title, description etc.
-    route.title = `${route.title || 'Untitled Page'}`
+    route.title = `${route.title || 'eXpert hub'}`
     route.description = route.description || ''
     // 如果没有token，重定向到登陆页
     return route

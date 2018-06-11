@@ -8,15 +8,15 @@
  */
 
 import React from 'react'
-import Expert from './expert'
+import Resources from './Resources'
 import Layout from '../../components/Layout'
 
 function action() {
   return {
-    chunks: ['expert'],
+    chunks: ['resources'],
     component: (
       <Layout>
-        <Expert />
+        <Resources />
       </Layout>
     )
   }

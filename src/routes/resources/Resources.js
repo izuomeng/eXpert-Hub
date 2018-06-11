@@ -8,19 +8,11 @@
  */
 
 import React from 'react'
-import ProfessorInfo from './ProfessorInfo'
-import Layout from '../../components/Layout'
 
-async function action() {
-  return {
-    title: 'Professor Info page',
-    chunks: ['professor-info'],
-    component: (
-      <Layout>
-        <ProfessorInfo />
-      </Layout>
-    )
+class Commodity extends React.Component {
+  render() {
+    return <div>资源列表</div>
   }
 }
 
-export default action
+export default Commodity
