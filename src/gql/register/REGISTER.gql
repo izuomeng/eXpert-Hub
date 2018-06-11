@@ -1,0 +1,7 @@
+mutation register($info_form:UserInput!){
+	createUser(info:$info_form)
+	{
+		id,
+		name,
+	}
+}
