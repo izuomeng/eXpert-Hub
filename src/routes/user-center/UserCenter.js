@@ -4,6 +4,7 @@ import { Layout } from 'antd'
 import { connect } from 'react-redux'
 import PURCHASED_RESOURCE from 'gql/user-center/PURCHASED_RESOURCE.gql'
 import UPLOADED_RESOURCE from 'gql/user-center/UPLOADED_RESOURCE.gql'
+import IDENTIFIED_LIST from 'gql/user-center/IDENTIFIED_LIST.gql'
 import { Container } from './components'
 import Home from './components/Home'
 import Recharge from './components/Recharge'
@@ -52,9 +53,11 @@ class UserCenter extends React.Component {
           />
         )
       case '41':
-        return <Identification />
+        return <Identification variables={{ userId: id }} />
       case '42':
-        return <IdentifiedList />
+        return (
+          <IdentifiedList variables={{ userId: id }} gqlTag={IDENTIFIED_LIST} />
+        )
       default:
         return null
     }
