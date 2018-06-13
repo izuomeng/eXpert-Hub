@@ -6,8 +6,9 @@ import { primaryColor } from 'constants/css-mixin'
 
 const Item = styled.div`
   ${primaryColor};
-  line-height: 1.5;
+  line-height: 1.2;
   cursor: pointer;
+  margin-bottom: 10px;
 `
 function trans(num) {
   return `${(num / 10000).toFixed(2)}万`
