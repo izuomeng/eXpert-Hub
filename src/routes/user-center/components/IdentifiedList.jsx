@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { List, Spin, Button } from 'antd'
 import styled from 'styled-components'
 import { graphql } from 'react-apollo'
+import IDENTIFIED_LIST from 'gql/user-center/IDENTIFIED_LIST.gql'
 import { Main } from './index'
 
 const fakeData = [
@@ -155,8 +156,8 @@ class IdentifiedList extends Component {
 
 const WrappedUserId = props => {
   const { variables, gqlTag, ...rest } = props
-  const MyList = graphql(gqlTag, {
-    opitions: { variables }
+  const MyList = graphql(IDENTIFIED_LIST, {
+    options: { variables }
   })(IdentifiedList)
   return <MyList {...rest} />
 }
