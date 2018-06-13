@@ -1,18 +1,15 @@
-/**
- * React Starter Kit (https://www.reactstarterkit.com/)
- *
- * Copyright © 2014-present Kriasoft, LLC. All rights reserved.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE.txt file in the root directory of this source tree.
- */
-
 import React from 'react'
+import { Container } from './components'
+import Paper from './components/Paper'
 
-class Commodity extends React.Component {
+class Resources extends React.Component {
   render() {
-    return <div>资源列表</div>
+    return (
+      <Container>
+        <Paper />
+      </Container>
+    )
   }
 }
 
-export default Commodity
+export default Resources
