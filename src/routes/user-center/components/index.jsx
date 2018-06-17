@@ -12,6 +12,7 @@ export const MyCard = styled(InjectClass(Card))`
 export const Container = styled(InjectClass(Layout))`
   min-height: calc(100vh - 52px);
   background-color: #fff !important;
+  margin-top: 10px;
 `
 
 export const Main = styled.div`

@@ -1,3 +1,3 @@
 import React from 'react'
 
-export default () => <div>论文详情</div>
+export default props => <div>商品详情：{props.params.id}</div> // eslint-disable-line

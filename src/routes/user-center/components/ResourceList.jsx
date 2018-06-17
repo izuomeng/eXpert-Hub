@@ -67,9 +67,7 @@ class ResourceList extends Component {
 }
 const WrappedUserId = props => {
   const { variables, gqlTag, ...rest } = props
-  const MyList = graphql(gqlTag, {
-    opitions: { variables }
-  })(ResourceList)
+  const MyList = graphql(gqlTag, { opitions: { variables } })(ResourceList)
   return <MyList {...rest} />
 }
 WrappedUserId.propTypes = {

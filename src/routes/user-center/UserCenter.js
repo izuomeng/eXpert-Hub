@@ -16,10 +16,21 @@ const { Content } = Layout
 
 class UserCenter extends React.Component {
   static propTypes = {
-    id: PropTypes.string.isRequired
+    id: PropTypes.string.isRequired,
+    fetch: PropTypes.func.isRequired
   }
   state = {
     current: '11'
+  }
+  async componentDidMount() {
+    const { fetch } = this.props
+    // 必须加上api前缀， 剩下的是后端接口路径
+    const res = await fetch('/api/crud', {
+      body: {
+        a: 1
+      }
+    })
+    console.info(res)
   }
   handleClick = e => {
     this.setState(
