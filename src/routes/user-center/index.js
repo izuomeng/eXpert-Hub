@@ -2,13 +2,13 @@ import React from 'react'
 import Layout from '../../components/Layout'
 import UserCenter from './UserCenter'
 
-function action() {
+function action({ fetch }) {
   return {
     chunks: ['user-center'],
     title: '个人中心',
     component: (
       <Layout>
-        <UserCenter />
+        <UserCenter fetch={fetch} />
       </Layout>
     )
   }

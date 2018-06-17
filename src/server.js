@@ -10,6 +10,7 @@
 import path from 'path'
 import Promise from 'bluebird'
 import express from 'express'
+import proxyMiddleware from 'http-proxy-middleware'
 import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
 import expressJwt, { UnauthorizedError as Jwt401Error } from 'express-jwt'
@@ -66,7 +67,8 @@ app.use(express.static(path.resolve(__dirname, 'public')))
 app.use(cookieParser())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
-
+// proxy-middleware
+app.use('/api', proxyMiddleware(config.proxy))
 //
 // Authentication
 // -----------------------------------------------------------------------------
