@@ -65,7 +65,7 @@ class UserCenter extends React.Component {
       case '41':
         return <Identification uid={id} />
       case '42':
-        return <IdentifiedList variables={{ userId: id }} />
+        return <IdentifiedList {...this.props} />
       default:
         return null
     }

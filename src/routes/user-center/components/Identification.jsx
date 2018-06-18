@@ -1,31 +1,34 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Steps, Button, message } from 'antd'
 import { Title, Main } from './index'
-import SearchStep from './Identification/SearchStep'
-import FillInStep from './Identification/FillInStep'
+import SelectExpertStep from './Identification/SelectExpert'
+import FillFormStep from './Identification/FillFormStep'
 import SubmitStep from './Identification/SubmitStep'
 
 class Identification extends React.Component {
-  static propTypes = {
-    uid: PropTypes.string.isRequired
-  }
+  // static propTypes = {
+  //   uid: PropTypes.string.isRequired
+  // }
   constructor(props) {
     super(props)
     this.state = {
-      current: 0,
-      expertId: '',
-      email: '',
-      idCard: ''
+      current: 0
+    }
+    this.payload = {
+      token: 0,
+      expertId: 0,
+      email: ''
     }
     this.handleSelectExpert = this.handleSelectExpert.bind(this)
     this.handleInputEmail = this.handleInputEmail.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
+    this.selectRef = React.createRef()
+    this.formRef = React.createRef()
     this.steps = [
       {
         title: '检索专家',
         content: (
-          <SearchStep
+          <SelectExpertStep
+            ref={this.selectRef}
             onChange={this.handleSelectExpert}
             selected={this.state.expertId}
           />
@@ -34,10 +37,7 @@ class Identification extends React.Component {
       {
         title: '填写信息',
         content: (
-          <FillInStep
-            onChange={this.handleInputEmail}
-            onSubmit={this.handleSubmit}
-          />
+          <FillFormStep onSubmit={this.handleInputEmail} ref={this.formRef} />
         )
       },
       {
@@ -47,28 +47,42 @@ class Identification extends React.Component {
     ]
   }
 
-  handleSelectExpert(uid) {
-    this.setState({ expertId: uid })
+  handleSelectExpert(eid) {
+    this.payload.expertId = eid
     // DEBUG
     // setTimeout(() => {
     //   console.info('Expert selected: ', this.state.expertId)
     // }, 500)
   }
-  handleInputEmail(email, idCard) {
-    this.setState({ email, idCard })
+  handleInputEmail(email) {
+    this.payload.email = email
   }
-  handleSubmit() {
-    console.info(
-      this.props.uid,
-      this.state.expertId,
-      this.state.email,
-      this.state.idCard
-    )
+  submit() {
+    console.info(this.payload)
   }
 
   next() {
-    const current = this.state.current + 1
-    this.setState({ current })
+    // 校验
+    if (this.state.current === 0) {
+      const eid = this.selectRef.current.selectedEid
+      if (eid !== 0) {
+        this.payload.expertId = eid
+        const current = this.state.current + 1
+        this.setState({ current })
+      }
+    } else if (this.state.current === 1) {
+      this.formRef.current.validateFieldsAndScroll((err, values) => {
+        if (!err) {
+          this.payload.email = values.email
+          this.submit()
+          const current = this.state.current + 1
+          this.setState({ current })
+        }
+      })
+    } else {
+      const current = this.state.current + 1
+      this.setState({ current })
+    }
   }
   prev() {
     const current = this.state.current - 1
