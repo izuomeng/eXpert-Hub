@@ -113,20 +113,32 @@ IdentifiedList.propTypes = {
 const ListWrappedWithLoading = wrapWithLoading(IdentifiedList)
 
 class WrappedList extends Component {
-  // async componentDidMount() {
-  //   const { fetch } = this.props
-  //   // 必须加上api前缀， 剩下的是后端接口路径
-  //   const res = await fetch('/api/map')
-  //   console.info(res)
-  // }
-  data = {
-    eids: ['1', '2', '3'],
-    loading: false
+  state = {
+    data: {
+      eids: [],
+      loading: true
+    }
   }
+  async componentDidMount() {
+    await this.retrieveData()
+  }
+  async retrieveData() {
+    const { fetch } = this.props
+    // 必须加上api前缀， 剩下的是后端接口路径
+    const res = await fetch('/api/map')
+    console.info(res)
+    this.setState({
+      data: {
+        eids: ['1', '2', '3'],
+        loading: false
+      }
+    })
+  }
+
   render() {
     return (
       <Main>
-        <ListWrappedWithLoading data={this.data} {...this.props} />
+        <ListWrappedWithLoading data={this.state.data} {...this.props} />
       </Main>
     )
   }
