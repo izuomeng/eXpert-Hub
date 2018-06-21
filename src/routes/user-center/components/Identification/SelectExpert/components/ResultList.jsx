@@ -14,45 +14,30 @@ const LinkWrapper = styled.div`
   float: left;
 `
 
-const I = ({
-  name,
-  institution,
-  description,
-  citations,
-  papers,
-  fields,
-  url,
-  uid,
-  className
-}) => (
+const I = ({ id, name, institution, sumCitation, sumItem, className }) => (
   <div className={className}>
     <InfoWrapper>
       <p>
-        <a href={url}> {name} </a>
+        <a href={`expert/{id}`}> {name} </a>
       </p>
       <p> {institution} </p>
-      <p> {description} </p>
       <p>
-        <span> 被引数：{citations} </span>
-        <span> 文章数：{papers} </span>
+        <span> 被引数：{sumCitation} </span>
+        <span> 资源数: {sumItem} </span>
       </p>
-      <p> 领域：{fields} </p>
     </InfoWrapper>
     <LinkWrapper>
-      <Radio value={uid} />
+      <Radio value={id} />
     </LinkWrapper>
   </div>
 )
 
 I.propTypes = {
+  id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   institution: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  citations: PropTypes.number.isRequired,
-  papers: PropTypes.number.isRequired,
-  fields: PropTypes.string.isRequired,
-  url: PropTypes.string.isRequired,
-  uid: PropTypes.string.isRequired
+  sumCitation: PropTypes.number.isRequired,
+  sumItem: PropTypes.number.isRequired
 }
 
 const Item = styled(I)`
@@ -67,13 +52,11 @@ class ResultList extends React.Component {
   static propTypes = {
     data: PropTypes.arrayOf(
       PropTypes.shape({
+        id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
-        institution: PropTypes.string.isRequired,
-        citations: PropTypes.number.isRequired,
-        papers: PropTypes.number.isRequired,
-        fields: PropTypes.string.isRequired,
-        url: PropTypes.string.isRequired,
-        uid: PropTypes.string.isRequired
+        org: PropTypes.string.isRequired,
+        sumItem: PropTypes.number.isRequired,
+        sumCitation: PropTypes.number.isRequired
       })
     ),
     onSelect: PropTypes.func.isRequired
@@ -109,14 +92,11 @@ class ResultList extends React.Component {
           renderItem={item => (
             <List.Item>
               <Item
+                id={item.id}
                 name={item.name}
-                institution={item.institution}
-                description={item.description}
-                citations={item.citations}
-                papers={item.papers}
-                fields={item.fields}
-                url={item.url}
-                uid={item.uid}
+                institution={item.org}
+                sumCitation={item.sumCitation}
+                sumItem={item.sumItem}
               />
             </List.Item>
           )}

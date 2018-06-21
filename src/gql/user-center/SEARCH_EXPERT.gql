@@ -1,6 +1,9 @@
 query($name: String, $institution: String) {
-  experts(name: $name, institution: $insitution) {
+  authors(name: $name, org: $institution) {
+    id
     name
-    url
+    org
+    sumItem
+    sumCitation
   }
 }
