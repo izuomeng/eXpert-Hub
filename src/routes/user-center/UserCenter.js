@@ -11,6 +11,7 @@ import ResourceList from './components/ResourceList'
 import Sidebar from './components/Sidebar'
 import Identification from './components/Identification'
 import IdentifiedList from './components/IdentifiedList'
+import Upload from './components/Upload'
 
 const { Content } = Layout
 
@@ -49,6 +50,8 @@ class UserCenter extends React.Component {
             gqlTag={UPLOADED_RESOURCE}
           />
         )
+      case '32':
+        return <Upload />
       case '41':
         return <Identification uid={id} />
       case '42':
