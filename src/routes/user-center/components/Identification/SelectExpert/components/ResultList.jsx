@@ -14,39 +14,41 @@ const LinkWrapper = styled.div`
   float: left;
 `
 
-const I = ({ id, name, institution, sumCitation, sumItem, className }) => (
-  <div className={className}>
-    <InfoWrapper>
-      <p>
-        <a href={`expert/{id}`}> {name} </a>
-      </p>
-      <p> {institution} </p>
-      <p>
-        <span> 被引数：{sumCitation} </span>
-        <span> 资源数: {sumItem} </span>
-      </p>
-    </InfoWrapper>
-    <LinkWrapper>
-      <Radio value={id} />
-    </LinkWrapper>
-  </div>
-)
-
-I.propTypes = {
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  institution: PropTypes.string.isRequired,
-  sumCitation: PropTypes.number.isRequired,
-  sumItem: PropTypes.number.isRequired
-}
-
-const Item = styled(I)`
+const ItemWrapper = styled.div`
   min-width: 360px;
-  min-height: 180px;
+  min-height: 140px;
   padding: 16px 22px;
   border-bottom: 1px solid #e8e8e8;
   // background-color: #eeeeee;
 `
+
+const Item = ({ data }) => (
+  <ItemWrapper>
+    <InfoWrapper>
+      <p>
+        <a href={`expert/${data.id}`}> {data.name} </a>
+      </p>
+      <p> {data.org} </p>
+      <p>
+        <span> 被引数：{data.sumCitation} </span>
+        <span> 资源数: {data.sumItem} </span>
+      </p>
+    </InfoWrapper>
+    <LinkWrapper>
+      <Radio value={data.id} />
+    </LinkWrapper>
+  </ItemWrapper>
+)
+Item.propTypes = {
+  data: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    org: PropTypes.string.isRequired,
+    sumCitation: PropTypes.number.isRequired,
+    sumItem: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired
+  }).isRequired
+  // isRequired
+}
 
 class ResultList extends React.Component {
   static propTypes = {
@@ -91,13 +93,7 @@ class ResultList extends React.Component {
           dataSource={this.props.data}
           renderItem={item => (
             <List.Item>
-              <Item
-                id={item.id}
-                name={item.name}
-                institution={item.org}
-                sumCitation={item.sumCitation}
-                sumItem={item.sumItem}
-              />
+              <Item data={item} />
             </List.Item>
           )}
         />
