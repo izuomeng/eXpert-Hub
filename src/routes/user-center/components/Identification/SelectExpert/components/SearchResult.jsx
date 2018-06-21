@@ -1,33 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Spin } from 'antd'
-import { graphql } from 'react-apollo'
+import { Query } from 'react-apollo'
 import SEARCH_EXPERT from 'gql/user-center/SEARCH_EXPERT.gql'
 import ResultList from './ResultList'
 
-class ExpertList extends React.Component {
+class SearchResult extends React.Component {
   static propTypes = {
-    data: PropTypes.shape({
-      authors: PropTypes.arrayOf(
-        PropTypes.shape({
-          name: PropTypes.string.isRequired,
-          org: PropTypes.string.isRequired,
-          sumCitation: PropTypes.number.isRequired,
-          sumItem: PropTypes.number.isRequired,
-          id: PropTypes.string.isRequired
-        })
-      ),
-      loading: PropTypes.bool.isRequired
-    }),
+    variables: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      institution: PropTypes.string.isRequired
+    }).isRequired,
     onSelect: PropTypes.func.isRequired
   }
-  static defaultProps = {
-    data: {
-      experts: [],
-      loading: true
-    }
-  }
-
   constructor(props) {
     super(props)
     this.onChange = this.onChange.bind(this)
@@ -38,30 +23,19 @@ class ExpertList extends React.Component {
   }
 
   render() {
-    const { loading, authors } = this.props.data
-    // DEBUG
-    console.info('Retrieved scholars: ', authors)
+    const { variables } = this.props
     return (
-      <div>
-        <Spin spinning={loading}>
-          {!loading && <ResultList onSelect={this.onChange} data={authors} />}
-        </Spin>
-      </div>
+      <Query query={SEARCH_EXPERT} variables={variables}>
+        {({ loading, data }) => (
+          <Spin spinning={loading}>
+            {!loading && (
+              <ResultList onSelect={this.onChange} data={data.authors} />
+            )}
+          </Spin>
+        )}
+      </Query>
     )
   }
-}
-
-const SearchResult = props => {
-  const { variables, ...rest } = props
-  console.info('Query vars: ', variables)
-  const MyList = graphql(SEARCH_EXPERT, {
-    options: { variables }
-  })(ExpertList)
-  return <MyList {...rest} />
-}
-
-SearchResult.propTypes = {
-  variables: PropTypes.object.isRequired
 }
 
 const wrapWithControl = WrappedComponent => {

@@ -28,6 +28,8 @@ class SearchStep extends React.Component {
     this.setState({ show: false })
     this.keyword.name = name
     this.keyword.institution = institution
+    if (this.keyword.institution === '') delete this.keyword.institution
+    if (this.keyword.name === '') delete this.keyword.name
     this.setState({ show: true })
     // DEBUG
     console.info(this.keyword)

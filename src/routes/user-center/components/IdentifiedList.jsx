@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { List, Spin, Button } from 'antd'
 import styled from 'styled-components'
-import { graphql } from 'react-apollo'
+import { Query } from 'react-apollo'
 import EXPERT_INFO from 'gql/user-center/EXPERT_INFO.gql'
 import { Main } from './index'
 
@@ -17,8 +17,16 @@ const LinkWrapper = styled.div`
   float: left;
 `
 
-const I = ({ data, className }) => (
-  <div className={className}>
+const ItemWrapper = styled.div`
+  min-width: 360px;
+  min-height: 140px;
+  padding: 16px 22px;
+  border-bottom: 1px solid #e8e8e8;
+  // background-color: #eeeeee;
+`
+
+const Item = ({ data }) => (
+  <ItemWrapper>
     <InfoWrapper>
       <h2> {data.name} </h2>
       <p> {data.org} </p>
@@ -28,12 +36,12 @@ const I = ({ data, className }) => (
       </p>
     </InfoWrapper>
     <LinkWrapper>
-      <Button href={`expert/{id}`} icon="right" />
+      <Button href={`expert/${data.id}`} icon="right" />
     </LinkWrapper>
-  </div>
+  </ItemWrapper>
 )
 
-I.propTypes = {
+Item.propTypes = {
   data: PropTypes.shape({
     name: PropTypes.string.isRequired,
     org: PropTypes.string.isRequired,
@@ -43,7 +51,7 @@ I.propTypes = {
   })
   // isRequired
 }
-I.defaultProps = {
+Item.defaultProps = {
   data: {
     name: '谭火彬',
     org: '北京航空航天大学',
@@ -53,39 +61,15 @@ I.defaultProps = {
   }
 }
 
-const Item = styled(I)`
-  min-width: 360px;
-  min-height: 180px;
-  padding: 16px 22px;
-  border-bottom: 1px solid #e8e8e8;
-  // background-color: #eeeeee;
-`
-
-const wrapWithLoading = WrappedComponent => {
-  const Sub = props => {
-    const { loading } = props.data
-    return (
+const WrappedItem = props => (
+  <Query query={EXPERT_INFO} variables={{ eid: props.eid }}>
+    {({ loading, data }) => (
       <Spin spinning={loading}>
-        {!loading && <WrappedComponent {...props} />}
+        {!loading && <Item data={{ ...data.authors[0] }} />}
       </Spin>
-    )
-  }
-  Sub.propTypes = {
-    data: PropTypes.shape({
-      loading: PropTypes.bool.isRequired
-    }).isRequired
-  }
-  return Sub
-}
-
-const ItemWithLoading = wrapWithLoading(Item)
-const WrappedItem = props => {
-  const { eid, ...rest } = props
-  const MyItem = graphql(EXPERT_INFO, {
-    options: { variables: { eid } }
-  })(ItemWithLoading)
-  return <MyItem {...rest} />
-}
+    )}
+  </Query>
+)
 WrappedItem.propTypes = {
   eid: PropTypes.string.isRequired
 }
@@ -93,7 +77,7 @@ WrappedItem.propTypes = {
 const IdentifiedList = props => (
   <List
     grid={{ gutter: 16, column: 2 }}
-    dataSource={props.data.eids} // DEBUG
+    dataSource={props.data.eids}
     renderItem={eid => (
       <List.Item>
         <WrappedItem eid={eid} />
@@ -106,8 +90,6 @@ IdentifiedList.propTypes = {
     eids: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
   }).isRequired
 }
-
-const ListWrappedWithLoading = wrapWithLoading(IdentifiedList)
 
 class WrappedList extends Component {
   state = {
@@ -123,12 +105,13 @@ class WrappedList extends Component {
     const { fetch } = this.props
     // 必须加上api前缀， 剩下的是后端接口路径
     const res = await fetch('/api/map', {
-      method: 'GET'
+      method: 'POST'
     })
-    console.info(res)
+    let eids = await res.json().eid
+    if (!eids) eids = []
     this.setState({
       data: {
-        eids: ['1', '2', '3'],
+        eids,
         loading: false
       }
     })
@@ -137,7 +120,11 @@ class WrappedList extends Component {
   render() {
     return (
       <Main>
-        <ListWrappedWithLoading data={this.state.data} {...this.props} />
+        <Spin spinning={this.state.data.loading}>
+          {!this.state.data.loading && (
+            <IdentifiedList data={this.state.data} {...this.props} />
+          )}
+        </Spin>
       </Main>
     )
   }
