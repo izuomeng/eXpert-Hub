@@ -1,0 +1,9 @@
+query($eid: String) {
+  authors(id: $eid) {
+    id
+    name
+    org
+    sumItem
+    sumCitation
+  }
+}

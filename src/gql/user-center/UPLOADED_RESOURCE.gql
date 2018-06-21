@@ -1,0 +1,6 @@
+query($ownerId: String) {
+  resources(ownerId: $ownerId) {
+    name
+    url
+  }
+}

@@ -95,6 +95,8 @@ module.exports = {
 
     'react/forbid-prop-types': 'off',
     'react/prop-types': [2, { ignore: ['className'] }],
+    'no-return-assign': 'off',
+    'consistent-return': 'off',
     // ESLint plugin for prettier formatting
     // https://github.com/prettier/eslint-plugin-prettier
     'prettier/prettier': 'error'

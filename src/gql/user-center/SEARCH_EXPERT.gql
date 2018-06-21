@@ -1,0 +1,9 @@
+query($name: String, $institution: String, $page: Int) {
+  authors(name: $name, org: $institution, page: $page) {
+    id
+    name
+    org
+    sumItem
+    sumCitation
+  }
+}
