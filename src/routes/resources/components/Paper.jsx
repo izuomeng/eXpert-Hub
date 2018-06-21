@@ -17,6 +17,9 @@ const RESOURCES = gql`
       title
       years
       authors
+      urlSet {
+        url
+      }
     }
   }
 `
@@ -29,6 +32,9 @@ const FIELD_RESOURCES = gql`
           title
           years
           authors
+          urlSet {
+            url
+          }
         }
       }
     }
@@ -41,21 +47,21 @@ const categaryList = [
   { name: 'history', count: 12000 },
   { name: 'physical', count: 378020 }
 ]
-const paperLists = [
-  {
-    id: '1',
-    title: 'System and Method for Maskless Direct Write Lithography',
-    year: '2016',
-    authors: [{ name: 'Ahmed M. Alluwaimi' }]
-  },
-  {
-    id: '2',
-    title:
-      'The dilemma of the Mycobacterium avium subspecies paratuberculosis infection: In pursue for effective vaccine',
-    year: '2017',
-    authors: [{ name: '赵钱孙李' }, { name: '周吴郑王' }]
-  }
-]
+// const paperLists = [
+//   {
+//     id: '1',
+//     title: 'System and Method for Maskless Direct Write Lithography',
+//     year: '2016',
+//     authors: [{ name: 'Ahmed M. Alluwaimi' }]
+//   },
+//   {
+//     id: '2',
+//     title:
+//       'The dilemma of the Mycobacterium avium subspecies paratuberculosis infection: In pursue for effective vaccine',
+//     year: '2017',
+//     authors: [{ name: '赵钱孙李' }, { name: '周吴郑王' }]
+//   }
+// ]
 function toString(a) {
   return a.map(v => v.name).join(', ')
 }
@@ -92,14 +98,15 @@ class Paper extends Component {
         </StyledSider>
         <StyledContent>
           {!loading &&
-            paperLists &&
-            paperLists.map(paper => (
+            paperList &&
+            paperList.map(paper => (
               <PaperItem key={paper.title}>
                 <a
                   style={{ display: 'block' }}
                   href={`/resources/${paper.id}?title=${paper.title}&year=${
                     paper.years
-                  }&author=${toString(paper.authors)}`}
+                  }&author=${toString(paper.authors)}&url=${paper.urlSet &&
+                    paper.urlSet.url[0]}`}
                 >
                   {paper.title}
                 </a>
