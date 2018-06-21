@@ -1,0 +1,8 @@
+query{
+  authors(id:"1"){
+    sumCitation
+  }
+  attachments(id:"1"){
+    downloadNum
+  }
+}

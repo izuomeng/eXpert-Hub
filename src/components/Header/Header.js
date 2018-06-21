@@ -17,15 +17,15 @@ import Link from '../Link'
 const SmallNav = styled.div`
   width: 100%;
   text-align: right;
-  padding: 0 20px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  padding: 20px;
   & > a {
     margin-left: 20px;
+    color: #fff;
   }
 `
 const Container = styled.div`
-  padding-top: 20px;
+  background: #1890ff;
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
 `
 
 class Header extends React.Component {
@@ -37,10 +37,13 @@ class Header extends React.Component {
     return (
       <Container>
         <SmallNav>
-          {token ? <Link to="/">个人中心</Link> : <Link to="/login">登陆</Link>}
-          <Link to="/">购物车</Link>
-          <Link to="/">我的收藏</Link>
-          <Link to="/about">关于</Link>
+          <Link to="/">主页</Link>
+          <Link to="/expert">专家学者</Link>
+          {token ? (
+            <Link to="/account">个人中心</Link>
+          ) : (
+            <Link to="/login">登陆</Link>
+          )}
         </SmallNav>
         {/* <Navigation pathname={pathname} /> */}
       </Container>

@@ -1,0 +1,6 @@
+query{
+  expertResourceDistribution(name: "2li9srmk0l83"){
+    rtype,
+    count
+  }
+}

@@ -8,17 +8,16 @@
  */
 
 import React from 'react'
+import ExpertInfo from './ExpertInfo'
 import Layout from '../../components/Layout'
-import Page from '../../components/Page'
-import about from './about.md'
 
-function action() {
+async function action() {
   return {
-    chunks: ['about'],
-    title: about.title,
+    title: '专家详情',
+    chunks: ['expert-info'],
     component: (
       <Layout>
-        <Page {...about} />
+        <ExpertInfo />
       </Layout>
     )
   }
