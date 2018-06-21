@@ -26,7 +26,6 @@ const link = from([
   new HttpLink({
     // uri: '/graphql'
     uri: 'http://140.143.0.242:5000/graphql'
-    // credentials: 'include'
   })
 ])
 

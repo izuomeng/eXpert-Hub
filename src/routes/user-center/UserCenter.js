@@ -22,16 +22,6 @@ class UserCenter extends React.Component {
   state = {
     current: '11'
   }
-  // async componentDidMount() {
-  //   const { fetch } = this.props
-  //   // 必须加上api前缀， 剩下的是后端接口路径
-  //   const res = await fetch('/api/register', {
-  //     body: {
-  //       a: 1
-  //     }
-  //   })
-  //   console.info(res)
-  // }
   handleClick = e => {
     this.setState({
       current: e.key
@@ -60,9 +50,9 @@ class UserCenter extends React.Component {
           />
         )
       case '41':
-        return <Identification />
+        return <Identification uid={id} />
       case '42':
-        return <IdentifiedList />
+        return <IdentifiedList {...this.props} />
       default:
         return null
     }
