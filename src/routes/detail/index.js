@@ -8,17 +8,16 @@
  */
 
 import React from 'react'
+import Detail from './Detail'
 import Layout from '../../components/Layout'
-import Page from '../../components/Page'
-import about from './about.md'
 
-function action() {
+async function action({ params, query }) {
   return {
-    chunks: ['about'],
-    title: about.title,
+    title: '详情',
+    chunks: ['detail'],
     component: (
       <Layout>
-        <Page {...about} />
+        <Detail params={params} query={query} />
       </Layout>
     )
   }

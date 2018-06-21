@@ -1,0 +1,6 @@
+query A($resourceId: String){
+  resources(resourceId: $resourceId) {
+    name
+    price
+  }
+}

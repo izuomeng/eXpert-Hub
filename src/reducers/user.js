@@ -4,7 +4,8 @@ export default function user(state = {}, action) {
   switch (action.type) {
     case SET_USER_INFO:
       return {
-        ...action.paylaod
+        ...state,
+        ...action.payload
       }
     default:
       return state
