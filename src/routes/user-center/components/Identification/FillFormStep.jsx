@@ -39,30 +39,30 @@ class RegistrationForm extends React.Component {
     return (
       <Container>
         <Form>
-          <Form.Item {...formItemLayout} label="E-mail">
+          <Form.Item {...formItemLayout} label="邮箱">
             {getFieldDecorator('email', {
               rules: [
                 {
                   type: 'email',
-                  message: 'The input is not valid E-mail!'
+                  message: '邮箱不合法'
                 },
                 {
                   required: true,
-                  message: 'Please input your E-mail!'
+                  message: '请输入你的邮箱'
                 }
               ]
             })(<Input />)}
           </Form.Item>
-          <Form.Item {...formItemLayout} label="Confirm E-mail">
+          <Form.Item {...formItemLayout} label="确认邮箱">
             {getFieldDecorator('confirm', {
               rules: [
                 {
                   type: 'email',
-                  message: 'The input is not valid E-mail!'
+                  message: '邮箱不合法'
                 },
                 {
                   required: true,
-                  message: 'Please comfirm your E-mail!'
+                  message: '请确认你的邮箱'
                 },
                 {
                   validator: this.compareToFirstPassword
