@@ -1,5 +1,5 @@
-query($name: String, $institution: String) {
-  authors(name: $name, org: $institution) {
+query($name: String, $institution: String, $page: Int) {
+  authors(name: $name, org: $institution, page: $page) {
     id
     name
     org

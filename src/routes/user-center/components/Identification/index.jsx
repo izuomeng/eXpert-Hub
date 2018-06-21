@@ -71,12 +71,13 @@ class Identification extends React.Component {
           this.payload.email = values.email
           this.submit().then(ok => {
             if (ok) {
-              const current = this.state.current + 1
-              this.setState({ current })
+              console.info('提交成功')
             } else {
               message.info(`提交失败`)
             }
           })
+          const current = this.state.current + 1
+          this.setState({ current })
         }
       })
     } else {
@@ -101,7 +102,7 @@ class Identification extends React.Component {
         <div className="steps-action">
           {this.state.current < steps.length - 1 && (
             <Button type="primary" onClick={() => this.next()}>
-              Next
+              下一步
             </Button>
           )}
           {this.state.current === steps.length - 1 && (
