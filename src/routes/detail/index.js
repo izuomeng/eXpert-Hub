@@ -13,7 +13,7 @@ import Layout from '../../components/Layout'
 
 async function action({ params, query }) {
   return {
-    title: 'Detail',
+    title: '详情',
     chunks: ['detail'],
     component: (
       <Layout>

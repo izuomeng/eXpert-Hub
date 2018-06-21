@@ -17,15 +17,15 @@ import Link from '../Link'
 const SmallNav = styled.div`
   width: 100%;
   text-align: right;
-  padding: 0 20px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  padding: 20px;
   & > a {
     margin-left: 20px;
+    color: #fff;
   }
 `
 const Container = styled.div`
-  padding-top: 20px;
+  background: #1890ff;
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
 `
 
 class Header extends React.Component {

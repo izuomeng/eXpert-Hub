@@ -43,7 +43,7 @@ function createFetch(
     }
   }
 
-  return async (url: string, options: any) => {
+  return async (url: string, options: any = {}) => {
     const isGraphQL = url.startsWith('/graphql')
     if (schema && graphql && isGraphQL) {
       // We're SSR, so route the graphql internal to avoid latency

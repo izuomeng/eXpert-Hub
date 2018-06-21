@@ -13,6 +13,7 @@ import Layout from '../../components/Layout'
 
 function action() {
   return {
+    title: '资源',
     chunks: ['resources'],
     component: (
       <Layout>

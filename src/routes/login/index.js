@@ -10,13 +10,11 @@
 import React from 'react'
 import Login from './Login'
 
-const title = 'Log In'
-
 function action({ fetch }) {
   return {
     chunks: ['login'],
-    title,
-    component: <Login title={title} fetch={fetch} />
+    title: '登陆',
+    component: <Login fetch={fetch} />
   }
 }
 

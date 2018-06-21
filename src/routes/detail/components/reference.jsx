@@ -1,10 +1,8 @@
 import React from 'react'
-
 import { Tabs, Button } from 'antd'
-import { graphql } from 'react-apollo'
 import { InjectClass } from 'utils/HOC'
 import styled from 'styled-components'
-import DETAIL from 'gql/detail/DETAIL.gql'
+import { PaperInfo } from 'routes/resources/components/index'
 
 const { TabPane } = Tabs
 
@@ -16,6 +14,7 @@ const StyledTabs = styled(InjectClass(Tabs))`
 const StyledReference = styled.div`
   width: 460px;
   margin-left: 20px;
+  padding-top: 20px;
 `
 const StyledBorder = styled.div`
   width: 500px;
@@ -33,39 +32,37 @@ const StyledButton = styled(InjectClass(Button))`
 
 const Reference = () => (
   <StyledTabs type="card" tabBarStyle={{ marginBottom: 0 }}>
-    {console.log(data) // eslint-disable-line
-    }
     <TabPane tab="参考文献" key="1">
       <StyledBorder>
         <StyledReference>
-          <p>title</p>
-          <p>authors</p>
+          <p style={{ fontSize: 16 }}>
+            The estimation of risk of deficit consumption of proteins, vitamins
+            and substance mineral adult population of Samara.
+          </p>
+          <PaperInfo icon="user" label="作者" value="Dake Jamie M" />
           <hr />
         </StyledReference>
         <StyledReference>
-          <p>title</p>
-          <p>authors</p>
+          <p style={{ fontSize: 16 }}>
+            Labor supply and consumption of food in a closed economy under a
+            range of fixed- and random-ratio schedules: tests of unit price.
+          </p>
+          <PaperInfo
+            icon="user"
+            label="作者"
+            value="Madden Gregory J, Mauel Ellie C, Rowe Ryan R"
+          />
           <hr />
         </StyledReference>
         <StyledReference>
-          <p>title</p>
-          <p>authors</p>
-          <hr />
-        </StyledReference>
-        <StyledButton>加载更多</StyledButton>
-      </StyledBorder>
-    </TabPane>
-
-    <TabPane tab="印证文献" key="2">
-      <StyledBorder>
-        <StyledReference>
-          <p>title</p>
-          <p>authors</p>
-          <hr />
-        </StyledReference>
-        <StyledReference>
-          <p>title</p>
-          <p>authors</p>
+          <p style={{ fontSize: 16 }}>
+            Caesarean birth: consumption, safety, order, and good mothering.
+          </p>
+          <PaperInfo
+            icon="user"
+            label="作者"
+            value="Bryant Joanne, Porter Maree, Tracy Sally K, Sullivan Elizabeth A"
+          />
           <hr />
         </StyledReference>
         <StyledButton>加载更多</StyledButton>
@@ -194,4 +191,4 @@ const Reference = () => (
 //     ]
 //   }
 // }
-export default graphql(DETAIL)(Reference)
+export default Reference

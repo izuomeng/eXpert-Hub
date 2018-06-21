@@ -13,7 +13,7 @@ import Layout from '../../components/Layout'
 
 async function action() {
   return {
-    title: 'Attached',
+    title: '资源',
     chunks: ['attached'],
     component: (
       <Layout>
