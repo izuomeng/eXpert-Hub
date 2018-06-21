@@ -1,193 +1,126 @@
-import { Table, Input, Button, Icon, Dropdown, Menu, Divider } from 'antd'
+import { Table } from 'antd'
+// import PropTypes from 'prop-types'
 import React from 'react'
-import TimePicker from './TimePicker'
 
-const menu1 = (
-  <Menu>
-    <Menu.Item key="0">
-      <span>工学</span>
-    </Menu.Item>
-    <Menu.Item key="1">
-      <span>力学</span>
-    </Menu.Item>
-    <Menu.Item key="2">
-      <span>机械学</span>
-    </Menu.Item>
-  </Menu>
-)
-const menu2 = (
-  <Menu>
-    <Menu.Item key="0">
-      <span>SCI</span>
-    </Menu.Item>
-    <Menu.Item key="1">
-      <span>EI</span>
-    </Menu.Item>
-    <Menu.Item key="2">
-      <span>sbAI</span>
-    </Menu.Item>
-  </Menu>
-)
+// fake data
 const data = [
   {
-    key: '1',
-    name: '基于1的研究',
-    ref: 32,
-    download: 12,
-    subject: '数学',
-    level: 'SCI'
-    // time: parseDate('2016-11-15'),
+    title: '1',
+    docType: 'journal',
+    nCitation: 3,
+    years: 1997
   },
   {
-    key: '2',
-    name: '基于2的研究 ',
-    ref: 42,
-    download: 1,
-    subject: '数学',
-    level: 'SCI'
-    // time: parseDate('2016-1-15'),
+    title: '2',
+    docType: 'book',
+    nCitation: 13,
+    years: 1987
   },
   {
-    key: '3',
-    name: '基于3的研究',
-    ref: 32,
-    download: 23,
-    subject: '数学',
-    level: 'SCI'
-    // time: parseDate('2017-11-15'),
+    title: '3',
+    docType: 'otherA',
+    nCitation: 33,
+    years: 1998
   },
   {
-    key: '4',
-    name: '基于4的研究',
-    ref: 32,
-    download: 12,
-    subject: '数学',
-    level: 'SCI'
-    // time: parseDate('2017-11-17'),
+    title: '4',
+    docType: 'otherB',
+    nCitation: 24,
+    years: 2011
+  },
+  {
+    title: '5',
+    docType: 'otherC',
+    nCitation: 33,
+    years: 2001
   }
 ]
 
 class ResourceTable extends React.Component {
-  state = {
-    filterDropdownVisible: false,
-    data,
-    searchText: '',
-    filtered: false
+  /* static propTypes = {
+    data: PropTypes.shape({
+      authoritems: PropTypes.arrayOf({
+        item: PropTypes.shape({
+          title: PropTypes.string.isRequired,
+          docType: PropTypes.string.isRequired,
+          nCitation: PropTypes.number.isRequired,
+          years: PropTypes.number.isRequired
+        })
+      })
+    })
   }
-  onInputChange = e => {
-    this.setState({ searchText: e.target.value })
-  }
+  static defaultProps = {
+    data: {
+      authoritems: {
+        item: [
+          {
+            title: '1',
+            docType: 'journal',
+            nCitation: 3,
+            years: 1997
+          }
+        ]
+      }
+    }
+  } */
   onChange = (pagination, filters, sorter) => {
     console.info('params', pagination, filters, sorter)
   }
-  onSearch = () => {
-    const { searchText } = this.state
-    const reg = new RegExp(searchText, 'gi')
-    this.setState({
-      filterDropdownVisible: false,
-      filtered: !!searchText,
-      data: data
-        .map(record => {
-          const match = record.name.match(reg)
-          if (!match) {
-            return null
-          }
-          return {
-            ...record,
-            name: (
-              <span>
-                {record.name
-                  .split(
-                    new RegExp(`(?<=${searchText})|(?=${searchText})`, 'i')
-                  )
-                  .map(
-                    text =>
-                      text.toLowerCase() === searchText.toLowerCase() ? (
-                        <span key={text} className="highlight">
-                          {text}
-                        </span>
-                      ) : (
-                        <span key={text}>{text}</span>
-                      ) // eslint-disable-line
-                  )}
-              </span>
-            )
-          }
-        })
-        .filter(record => !!record)
-    })
-  }
+
   render() {
     const columns = [
       {
         title: '资源名称',
-        dataIndex: 'name',
-        key: 'name',
-        filterDropdown: (
-          <div className="custom-filter-dropdown">
-            <Input
-              ref={ele => (this.searchInput = ele)}
-              placeholder="Search name"
-              value={this.state.searchText}
-              onChange={this.onInputChange}
-              onPressEnter={this.onSearch}
-            />
-            <Button type="primary" onClick={this.onSearch}>
-              Search
-            </Button>
-          </div>
-        ),
-        filterIcon: (
-          <Icon
-            type="smile-o"
-            style={{ color: this.state.filtered ? '#108ee9' : '#aaa' }}
-          />
-        ),
-        filterDropdownVisible: this.state.filterDropdownVisible,
-        onFilterDropdownVisibleChange: visible => {
-          this.setState(
-            {
-              filterDropdownVisible: visible
-            },
-            () => this.searchInput && this.searchInput.focus()
-          )
-        }
+        dataIndex: 'title',
+        key: 'title'
+      },
+      {
+        title: '文献类型',
+        dataIndex: 'docType',
+        key: 'docType',
+        filters: [
+          {
+            text: 'journal',
+            value: 'journal'
+          },
+          {
+            text: 'book',
+            value: 'book'
+          },
+          {
+            text: 'otherA',
+            value: 'otherA'
+          },
+          {
+            text: 'otherB',
+            value: 'otherB'
+          },
+          {
+            text: 'otherC',
+            value: 'otherC'
+          }
+        ],
+        onFilter: (value, record) => record.docType.indexOf(value) === 0
       },
       {
         title: '被引用次数',
-        dataIndex: 'ref',
-        key: 'ref',
+        dataIndex: 'nCitation',
+        key: 'nCitation',
         defaultSortOrder: 'descend',
-        sorter: (a, b) => a.ref - b.ref
+        sorter: (a, b) => a.nCitation - b.nCitation
       },
       {
-        title: '被下载次数',
-        dataIndex: 'download',
-        key: 'download',
+        title: '发布时间',
+        dataIndex: 'years',
+        key: 'years',
         defaultSortOrder: 'descend',
-        sorter: (a, b) => a.download - b.download
+        sorter: (a, b) => a.years - b.years
       }
     ]
     return (
-      <div>
-        <div className="operation-menu">
-          <Dropdown overlay={menu1} placement="bottomLeft">
-            <Button>学科</Button>
-          </Dropdown>
-          <Divider type="vertical" />
-          <Dropdown overlay={menu2} placement="bottomLeft">
-            <Button>层次</Button>
-          </Dropdown>
-          <Divider type="vertical" />
-          <TimePicker />
-        </div>
-        <Divider />
-        <Table
-          columns={columns}
-          dataSource={this.state.data}
-          onChange={this.onChange}
-        />
-      </div>
+      <React.Fragment>
+        <Table columns={columns} onChange={this.onChange} dataSource={data} />
+      </React.Fragment>
     )
   }
 }
