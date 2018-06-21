@@ -16,19 +16,16 @@ const { Content } = Layout
 
 class UserCenter extends React.Component {
   static propTypes = {
-    id: PropTypes.string.isRequired,
-    fetch: PropTypes.func.isRequired
+    id: PropTypes.string.isRequired
+    // fetch: PropTypes.func.isRequired
   }
   state = {
     current: '11'
   }
   handleClick = e => {
-    this.setState(
-      {
-        current: e.key
-      },
-      () => console.info(this.state.current)
-    )
+    this.setState({
+      current: e.key
+    })
   }
   mapRoutes() {
     const { current } = this.state

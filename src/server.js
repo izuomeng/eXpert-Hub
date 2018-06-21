@@ -69,7 +69,6 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 // proxy-middleware
 app.use('/api', proxyMiddleware(config.proxy))
-//
 // Authentication
 // -----------------------------------------------------------------------------
 app.use(
@@ -110,7 +109,7 @@ app.post('/loginapi', (req, res) => {
   )
   res.cookie('token', token, { maxAge: 1000 * expiresIn, httpOnly: false })
   return res.json({
-    errorCode: 0,
+    status: 0,
     userName: 'zuomeng'
   })
 })

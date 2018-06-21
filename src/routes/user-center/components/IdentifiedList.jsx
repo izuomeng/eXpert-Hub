@@ -107,14 +107,17 @@ class WrappedList extends Component {
     const res = await fetch('/api/map', {
       method: 'POST'
     })
-    let eids = await res.json().eid
-    if (!eids) eids = []
+    const resJson = await res.json()
+    console.info(resJson)
     this.setState({
       data: {
-        eids,
+        eids: resJson.eid ? resJson.eid : [],
         loading: false
       }
     })
+    setTimeout(() => {
+      console.info(this.state)
+    }, 1000)
   }
 
   render() {
