@@ -28,12 +28,11 @@ class Login extends React.Component {
     e.preventDefault()
     form.validateFields(async (err, values) => {
       if (!err) {
-        const res = await fetch('/loginapi', {
-          method: 'post',
+        const res = await fetch('/api/login', {
           body: values
         })
         const data = await res.json()
-        if (data && data.errorCode === 0) {
+        if (data && data.status === 0) {
           message.success('登陆成功')
           return history.push('/')
         }
@@ -49,7 +48,7 @@ class Login extends React.Component {
     return (
       <StyledForm onSubmit={this.handleSubmit}>
         <FormItem>
-          {getFieldDecorator('userName', {
+          {getFieldDecorator('nickname', {
             rules: [{ required: true, message: 'Please input your username!' }]
           })(
             <Input
@@ -59,7 +58,7 @@ class Login extends React.Component {
           )}
         </FormItem>
         <FormItem>
-          {getFieldDecorator('password', {
+          {getFieldDecorator('hashkey', {
             rules: [{ required: true, message: 'Please input your Password!' }]
           })(
             <Input

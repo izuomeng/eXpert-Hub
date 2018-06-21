@@ -25,7 +25,7 @@ const link = from([
   ...(__DEV__ ? [apolloLogger] : []),
   new HttpLink({
     // uri: '/graphql'
-    uri: 'http://47.95.224.52:4000/graphql'
+    uri: 'http://192.168.10.137:8000/graphql'
     // credentials: 'include'
   })
 ])
