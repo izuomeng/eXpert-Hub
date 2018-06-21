@@ -24,10 +24,11 @@ export const PaperItem = styled.div`
   cursor: default;
   padding: 16px 0;
   border-bottom: 1px solid #e8e8e8;
-  & > div:first-child {
+  & > a:first-child {
     word-break: break-all;
     font-size: 1.2em;
     margin-bottom: 10px;
+    color: #5a5e63;
     cursor: pointer;
     transition: color 0.2s;
     &:hover {

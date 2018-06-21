@@ -11,7 +11,10 @@ const Container = styled.div`
 
 class Search extends Component {
   static propTypes = {
-    type: PropTypes.string
+    type: PropTypes.string,
+    handleChange: PropTypes.func.isRequired,
+    value: PropTypes.string.isRequired,
+    handleSearch: PropTypes.func.isRequired
   }
   static defaultProps = {
     type: 'resource'
@@ -29,6 +32,9 @@ class Search extends Component {
           prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />}
           addonBefore={selectBefore}
           placeholder="搜索"
+          onPressEnter={this.props.handleSearch}
+          value={this.props.value}
+          onChange={this.props.handleChange}
           // defaultValue="mysite"
         />
       </Container>

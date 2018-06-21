@@ -59,7 +59,9 @@ module.exports = {
         const cookie = proxyRes.headers['set-cookie'].toString()
         const token = cookie.slice(cookie.indexOf('=') + 1)
         // eslint-disable-next-line
-        proxyRes.headers['set-cookie'] = `token=${token}; path=/`
+        proxyRes.headers[
+          'Set-Cookie'
+        ] = `token=${token}; Max-Age=15552000; Path=/`
       }
     },
     logLevel: 'debug'

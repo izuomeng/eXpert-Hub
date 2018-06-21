@@ -33,30 +33,32 @@ const Item = styled(I)`
 class ResourceList extends Component {
   static propTypes = {
     data: PropTypes.shape({
-      resources: PropTypes.arrayOf(
-        PropTypes.shape({
-          name: PropTypes.string.isRequired,
-          url: PropTypes.string.isRequired
-        })
-      ),
+      authoritems: PropTypes.arrayOf(PropTypes.object),
+      attachments: PropTypes.arrayOf(PropTypes.object),
       loading: PropTypes.bool.isRequired
     })
   }
   static defaultProps = {
     data: {
-      resources: [{ name: '', url: '' }],
+      authoritems: [{}],
+      attachments: [{}],
       loading: true
     }
   }
   render() {
-    const { loading, resources } = this.props.data
+    const { loading, authoritems = null, attachments = null } = this.props.data
+    const list = attachments || authoritems || []
     return (
       <Main style={{ textAlign: loading ? 'center' : 'left' }}>
         <Spin spinning={loading}>
           {!loading && (
             <List>
-              {resources.map(item => (
-                <Item key={item.name} name={item.name} url={item.url} />
+              {list.map(v => v.item).map((item, i) => (
+                <Item
+                  key={item.title + i} // eslint-disable-line
+                  name={item.title}
+                  url={item.url || ''}
+                />
               ))}
             </List>
           )}
