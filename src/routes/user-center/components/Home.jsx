@@ -2,7 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { List, Tag, Button } from 'antd'
 import PropTypes from 'prop-types'
+import cookies from 'js-cookie'
 import { InjectClass } from 'utils/HOC'
+import history from '../../../history'
 import { Title, Item, Main } from './index'
 
 const StyledTag = styled(InjectClass(Tag))`
@@ -16,6 +18,10 @@ const Logout = styled.div`
     min-width: 200px;
   }
 `
+function handleLogout() {
+  cookies.remove('token')
+  history.push('/login')
+}
 
 const Home = ({ info, money }) => (
   <Main>
@@ -36,7 +42,9 @@ const Home = ({ info, money }) => (
       )}
     />
     <Logout>
-      <Button type="danger">退出登录</Button>
+      <Button type="danger" onClick={handleLogout}>
+        退出登录
+      </Button>
     </Logout>
   </Main>
 )
@@ -52,7 +60,12 @@ Home.propTypes = {
   })
 }
 Home.defaultProps = {
-  info: [{ key: '用户名', value: 'zuomeng' }, { key: '性别', value: '男' }],
+  info: [
+    { key: '用户名', value: 'zuomeng' },
+    { key: '性别', value: '男' },
+    { key: '邮箱', value: 'weekhimup@gmail.com' },
+    { key: '手机', value: '13123210328' }
+  ],
   money: {
     remain: 100
   }

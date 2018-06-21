@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Radio, Button } from 'antd'
+import { Radio, Button, Modal } from 'antd'
 import { InjectClass } from 'utils/HOC'
 import styled from 'styled-components'
 import { RECHARGE_AMOUNT } from '../../../constants'
 import { Title, Main } from './index'
+import QRCode from './QRCode'
 
 const StyledRadio = styled(InjectClass(Radio))`
   display: block !important;
@@ -30,11 +31,18 @@ class Recharge extends Component {
     uid: PropTypes.string.isRequired
   }
   state = {
-    value: 50
+    value: 50,
+    visible: false
   }
   onChange = e => {
     this.setState({ value: e.target.value })
     console.info(this.props.uid)
+  }
+  handleDone = () => {
+    this.setState({ visible: false })
+  }
+  handleCancel = () => {
+    this.setState({ visible: false })
   }
   render() {
     const { value } = this.state
@@ -52,8 +60,27 @@ class Recharge extends Component {
           金额: <span>{value}元</span>
         </Item>
         <Purchase>
-          <Button type="primary">购买</Button>
+          <Button
+            type="primary"
+            onClick={() => this.setState({ visible: true })}
+          >
+            购买
+          </Button>
         </Purchase>
+        <Modal
+          title="购买积分"
+          visible={this.state.visible}
+          footer={[
+            <Button key="submit" type="primary" onClick={this.handleDone}>
+              购买完成
+            </Button>,
+            <Button key="back" onClick={this.handleCancel}>
+              取 消
+            </Button>
+          ]}
+        >
+          <QRCode />
+        </Modal>
       </Main>
     )
   }
