@@ -11,13 +11,13 @@ import React from 'react'
 import Detail from './Detail'
 import Layout from '../../components/Layout'
 
-async function action({ params }) {
+async function action({ params, query }) {
   return {
     title: 'Detail',
     chunks: ['detail'],
     component: (
       <Layout>
-        <Detail props={params} />
+        <Detail params={params} query={query} />
       </Layout>
     )
   }

@@ -1,0 +1,29 @@
+query Detail {
+  items {
+    title
+    abstract
+    publisher
+    issn
+    authoritemSet {
+      author {
+        name
+      }
+    }
+    urlSet {
+      url
+    }
+    referenceSet {
+      reference {
+        title
+        abstract
+      }
+    }
+    attachmentSet {
+      attachmentUrl
+      item {
+        title
+        years
+      }
+    }
+  }
+}
