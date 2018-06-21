@@ -1,9 +1,9 @@
 import React from 'react'
 import { Steps, Button, message } from 'antd'
-import { Title, Main } from './index'
-import SelectExpertStep from './Identification/SelectExpert'
-import FillFormStep from './Identification/FillFormStep'
-import SubmitStep from './Identification/SubmitStep'
+import { Title, Main } from '../index'
+import SelectExpertStep from './SelectExpert'
+import FillFormStep from './FillFormStep'
+import SubmitStep from './SubmitStep'
 
 class Identification extends React.Component {
   // static propTypes = {
@@ -15,24 +15,16 @@ class Identification extends React.Component {
       current: 0
     }
     this.payload = {
-      token: 0,
-      expertId: 0,
+      nickname: '',
       email: ''
     }
-    this.handleSelectExpert = this.handleSelectExpert.bind(this)
     this.handleInputEmail = this.handleInputEmail.bind(this)
     this.selectRef = React.createRef()
     this.formRef = React.createRef()
     this.steps = [
       {
         title: '检索专家',
-        content: (
-          <SelectExpertStep
-            ref={this.selectRef}
-            onChange={this.handleSelectExpert}
-            selected={this.state.expertId}
-          />
-        )
+        content: <SelectExpertStep ref={this.selectRef} />
       },
       {
         title: '填写信息',
@@ -46,19 +38,22 @@ class Identification extends React.Component {
       }
     ]
   }
-
-  handleSelectExpert(eid) {
-    this.payload.expertId = eid
-    // DEBUG
-    // setTimeout(() => {
-    //   console.info('Expert selected: ', this.state.expertId)
-    // }, 500)
-  }
   handleInputEmail(email) {
     this.payload.email = email
   }
-  submit() {
+  async submit() {
     console.info(this.payload)
+    const res = await fetch('/api/grant', {
+      body: JSON.stringify(this.payload),
+      headers: {
+        'content-type': 'application/json'
+      },
+      method: 'POST',
+      mode: 'cors',
+      credentials: 'same-origin'
+    })
+    console.info(res)
+    return res.ok
   }
 
   next() {
@@ -66,7 +61,7 @@ class Identification extends React.Component {
     if (this.state.current === 0) {
       const eid = this.selectRef.current.selectedEid
       if (eid !== 0) {
-        this.payload.expertId = eid
+        this.payload.nickname = eid
         const current = this.state.current + 1
         this.setState({ current })
       }
@@ -74,9 +69,14 @@ class Identification extends React.Component {
       this.formRef.current.validateFieldsAndScroll((err, values) => {
         if (!err) {
           this.payload.email = values.email
-          this.submit()
-          const current = this.state.current + 1
-          this.setState({ current })
+          this.submit().then(ok => {
+            if (ok) {
+              const current = this.state.current + 1
+              this.setState({ current })
+            } else {
+              message.info(`提交失败`)
+            }
+          })
         }
       })
     } else {
@@ -107,7 +107,7 @@ class Identification extends React.Component {
           {this.state.current === steps.length - 1 && (
             <Button
               type="primary"
-              onClick={() => message.success('Processing complete!')}
+              onClick={() => message.success('提交成功！')}
             >
               Done
             </Button>

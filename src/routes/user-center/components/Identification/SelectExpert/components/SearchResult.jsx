@@ -5,51 +5,16 @@ import { graphql } from 'react-apollo'
 import SEARCH_EXPERT from 'gql/user-center/SEARCH_EXPERT.gql'
 import ResultList from './ResultList'
 
-const fakeData = [
-  {
-    name: '谭火彬',
-    institution: '北京航空航天大学',
-    description: '火神！！！',
-    citations: 233,
-    papers: 66,
-    fields: '教育学 计算机科学',
-    url: 'http://www.baidu.com',
-    uid: '111'
-  },
-  {
-    name: '林广艳',
-    institution: '北京航空航天大学',
-    description: 'lalala',
-    citations: 2333,
-    papers: 666,
-    fields: '教育学 计算机科学',
-    url: 'http://www.baidu.com',
-    uid: '222'
-  },
-  {
-    name: '林广艳',
-    institution: '北京航空航天大学',
-    description: 'lalala',
-    citations: 2333,
-    papers: 666,
-    fields: '教育学 计算机科学',
-    url: 'http://www.baidu.com',
-    uid: '333'
-  }
-]
-
 class ExpertList extends React.Component {
   static propTypes = {
     data: PropTypes.shape({
-      experts: PropTypes.arrayOf(
+      authors: PropTypes.arrayOf(
         PropTypes.shape({
           name: PropTypes.string.isRequired,
-          institution: PropTypes.string.isRequired,
-          citations: PropTypes.number.isRequired,
-          papers: PropTypes.number.isRequired,
-          fields: PropTypes.string.isRequired,
-          url: PropTypes.string.isRequired,
-          uid: PropTypes.string.isRequired
+          org: PropTypes.string.isRequired,
+          sumCitation: PropTypes.number.isRequired,
+          sumItem: PropTypes.number.isRequired,
+          id: PropTypes.string.isRequired
         })
       ),
       loading: PropTypes.bool.isRequired
@@ -73,13 +38,13 @@ class ExpertList extends React.Component {
   }
 
   render() {
-    const { loading, experts } = this.props.data
+    const { loading, authors } = this.props.data
     // DEBUG
-    console.info('Retrieved scholars: ', experts)
+    console.info('Retrieved scholars: ', authors)
     return (
       <div>
         <Spin spinning={loading}>
-          {!loading && <ResultList onSelect={this.onChange} data={fakeData} />}
+          {!loading && <ResultList onSelect={this.onChange} data={authors} />}
         </Spin>
       </div>
     )

@@ -21,15 +21,14 @@ const I = ({ data, className }) => (
   <div className={className}>
     <InfoWrapper>
       <h2> {data.name} </h2>
-      <p> {data.institution} </p>
+      <p> {data.org} </p>
       <p>
-        <span> 被引数：{data.citations} </span>
-        <span> 文章数：{data.papers} </span>
+        <span> 被引数：{data.sumCitation} </span>
+        <span> 资源数: {data.sumItem} </span>
       </p>
-      <p> 领域：{data.fields} </p>
     </InfoWrapper>
     <LinkWrapper>
-      <Button href={data.url} icon="right" />
+      <Button href={`expert/{id}`} icon="right" />
     </LinkWrapper>
   </div>
 )
@@ -37,22 +36,20 @@ const I = ({ data, className }) => (
 I.propTypes = {
   data: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    institution: PropTypes.string.isRequired,
-    citations: PropTypes.string.isRequired,
-    papers: PropTypes.string.isRequired,
-    fields: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired
+    org: PropTypes.string.isRequired,
+    sumCitation: PropTypes.number.isRequired,
+    sumItem: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired
   })
   // isRequired
 }
 I.defaultProps = {
   data: {
     name: '谭火彬',
-    institution: '北京航空航天大学',
-    citations: 233,
-    papers: 66,
-    fields: '教育学 计算机科学',
-    url: 'http://www.baidu.com'
+    org: '北京航空航天大学',
+    sumCitation: 233,
+    sumItem: 66,
+    id: '1'
   }
 }
 
@@ -125,7 +122,9 @@ class WrappedList extends Component {
   async retrieveData() {
     const { fetch } = this.props
     // 必须加上api前缀， 剩下的是后端接口路径
-    const res = await fetch('/api/map')
+    const res = await fetch('/api/map', {
+      method: 'GET'
+    })
     console.info(res)
     this.setState({
       data: {
