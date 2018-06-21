@@ -46,8 +46,8 @@ module.exports = {
     jwt: { secret: process.env.JWT_SECRET || 'React Starter Kit' }
   },
   proxy: {
-    target: 'http://39.106.99.106:811',
-    // changeOrigin: true,
+    target: 'http://139.199.80.199:811',
+    changeOrigin: true,
     pathRewrite: {
       '^/api': ''
     },
