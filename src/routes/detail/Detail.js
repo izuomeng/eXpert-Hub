@@ -30,4 +30,3 @@ Detail.propTypes = {
   }).isRequired
 }
 export default Detail
-
