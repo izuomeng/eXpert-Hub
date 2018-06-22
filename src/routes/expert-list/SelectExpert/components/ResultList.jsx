@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { List, Radio } from 'antd'
+import { List } from 'antd'
 import styled from 'styled-components'
 
 const InfoWrapper = styled.div`
@@ -34,9 +34,7 @@ const Item = ({ data }) => (
         <span> 资源数: {data.sumItem} </span>
       </p>
     </InfoWrapper>
-    <LinkWrapper>
-      <Radio value={data.id} />
-    </LinkWrapper>
+    <LinkWrapper />
   </ItemWrapper>
 )
 Item.propTypes = {
@@ -72,32 +70,26 @@ class ResultList extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      selected: 0
-    }
     this.onChange = this.onChange.bind(this)
   }
 
   onChange(e) {
     const eid = e.target.value
-    this.setState({ selected: eid })
     this.props.onSelect(eid)
   }
 
   render() {
     // DEBUG
     return (
-      <Radio.Group onChange={this.onChange} value={this.state.selected}>
-        <List
-          grid={{ gutter: 16, column: 2 }}
-          dataSource={this.props.data}
-          renderItem={item => (
-            <List.Item>
-              <Item data={item} />
-            </List.Item>
-          )}
-        />
-      </Radio.Group>
+      <List
+        grid={{ gutter: 16, column: 2 }}
+        dataSource={this.props.data}
+        renderItem={item => (
+          <List.Item>
+            <Item data={item} />
+          </List.Item>
+        )}
+      />
     )
   }
 }

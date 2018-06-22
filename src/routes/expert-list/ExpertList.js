@@ -13,11 +13,9 @@ const Container = styled.div`
 `
 const CardContainer = styled.div`
   margin-top: 20px;
-  width: 70%;
   padding-left: 2em;
 `
 const ListContainer = styled.div`
-  width: 70%;
   padding-left: 2em;
 `
 class ExpertList extends React.Component {
