@@ -3,16 +3,6 @@ import { Card } from 'antd'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { primaryColor } from 'constants/css-mixin'
-import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
-
-const FILTERS = gql`
-  {
-    fields {
-      field
-    }
-  }
-`
 
 const Item = styled.div`
   ${primaryColor};
@@ -23,20 +13,23 @@ const Item = styled.div`
 function trans(num) {
   return `${(num / 10000).toFixed(2)}万`
 }
-const Filter = ({ data: { loading, fields }, handleClick }) => (
+const Filter = ({ list }) => (
   <Card hoverable style={{ cursor: 'default' }}>
     <p>领域</p>
-    {!loading &&
-      fields.map(item => (
-        <Item key={item.field} onClick={() => handleClick(item.field)}>
-          {item.field}（{trans(item.count)}）
-        </Item>
-      ))}
+    {list.map(item => (
+      <Item key={item.name}>
+        {item.name}（{trans(item.count)}）
+      </Item>
+    ))}
   </Card>
 )
 Filter.propTypes = {
-  data: PropTypes.object.isRequired,
-  handleClick: PropTypes.func.isRequired
+  list: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      count: PropTypes.number.isRequired
+    })
+  ).isRequired
 }
 
-export default graphql(FILTERS)(Filter)
+export default Filter

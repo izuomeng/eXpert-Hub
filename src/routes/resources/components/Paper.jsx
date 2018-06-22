@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+// import PropTypes from 'prop-types'
+import Search from 'components/Search'
 import PropTypes from 'prop-types'
 import Filter from './Filter'
 import {
@@ -11,117 +11,73 @@ import {
   PaperInfo
 } from './index'
 
-const RESOURCES = gql`
-  {
-    items {
-      title
-      years
-      authors
-      urlSet {
-        url
-      }
-    }
-  }
-`
-const FIELD_RESOURCES = gql`
-  query field_resource($field: String) {
-    fields(field: $field) {
-      field
-      fielditemSet {
-        item {
-          title
-          years
-          authors
-          urlSet {
-            url
-          }
-        }
-      }
-    }
-  }
-`
-const categaryList = [
+const categoryListDefault = [
   { name: 'computer', count: 120500 },
   { name: 'math', count: 32008 },
   { name: 'medical', count: 56210 },
   { name: 'history', count: 12000 },
   { name: 'physical', count: 378020 }
 ]
-// const paperLists = [
-//   {
-//     id: '1',
-//     title: 'System and Method for Maskless Direct Write Lithography',
-//     year: '2016',
-//     authors: [{ name: 'Ahmed M. Alluwaimi' }]
-//   },
-//   {
-//     id: '2',
-//     title:
-//       'The dilemma of the Mycobacterium avium subspecies paratuberculosis infection: In pursue for effective vaccine',
-//     year: '2017',
-//     authors: [{ name: '赵钱孙李' }, { name: '周吴郑王' }]
-//   }
-// ]
-function toString(a) {
-  return a.map(v => v.name).join(', ')
-}
+const paperListDefault = [
+  {
+    title: 'System and Method for Maskless Direct Write Lithography',
+    year: '2016',
+    authors: [{ name: 'Ahmed M. Alluwaimi' }]
+  },
+  {
+    title:
+      'The dilemma of the Mycobacterium avium subspecies paratuberculosis infection: In pursue for effective vaccine',
+    year: '2017',
+    authors: [{ name: '赵钱孙李' }, { name: '周吴郑王' }]
+  }
+]
 class Paper extends Component {
   static propTypes = {
-    data: PropTypes.object.isRequired,
+    categoryList: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string,
+        count: PropTypes.number
+      })
+    ),
+    paperList: PropTypes.arrayOf(
+      PropTypes.shape({
+        title: PropTypes.string,
+        authors: PropTypes.arrayOf(PropTypes.string),
+        year: PropTypes.number
+      })
+    ),
     client: PropTypes.shape({
       query: PropTypes.func.isRequired
     }).isRequired
   }
-  state = {
-    fieldList: null
-  }
-  handleFieldClick = async field => {
-    const { client } = this.props
-    const { data: { fields: { fielditemSet } } } = await client.query({
-      query: FIELD_RESOURCES,
-      variables: {
-        field
-      }
-    })
-    this.setState({ fieldList: fielditemSet.map(v => v.item) })
+  static defaultProps = {
+    categoryList: categoryListDefault,
+    paperList: paperListDefault
   }
   render() {
-    const { data: { loading, items } } = this.props
-    // eslint-disable-next-line
-    const paperList =
-      this.state.fieldList ||
-      (!loading && typeof items !== 'undefined' && items)
+    console.info(this.props.paperList)
     return (
       <StyledLayout>
-        <StyledSider width={350}>
-          <Filter handleClick={this.handleFieldClick} list={categaryList} />
+        <StyledSider width={300}>
+          <Filter list={this.props.categoryList} />
         </StyledSider>
         <StyledContent>
-          {!loading &&
-            paperList &&
-            paperList.map(paper => (
-              <PaperItem key={paper.title}>
-                <a
-                  style={{ display: 'block' }}
-                  href={`/resources/${paper.id}?title=${paper.title}&year=${
-                    paper.years
-                  }&author=${toString(paper.authors)}&url=${paper.urlSet &&
-                    paper.urlSet.url[0]}`}
-                >
-                  {paper.title}
-                </a>
-                <PaperInfo
-                  icon="user"
-                  label="作者"
-                  value={toString(paper.authors)}
-                />
-                <PaperInfo icon="calendar" label="年份" value={paper.year} />
-              </PaperItem>
-            ))}
+          <Search client={this.props.client} />
+          {this.props.paperList.map(paper => (
+            <PaperItem key={paper.title}>
+              <div>{paper.title}</div>
+              <PaperInfo
+                icon="user"
+                label="作者"
+                value={paper.authors.map(v => v.name).join(', ')}
+              />
+              <PaperInfo icon="calendar" label="年份" value={paper.year} />
+            </PaperItem>
+          ))}
         </StyledContent>
       </StyledLayout>
     )
   }
 }
 
-export default graphql(RESOURCES)(Paper)
+export default Paper
