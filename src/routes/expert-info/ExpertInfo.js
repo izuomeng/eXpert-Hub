@@ -10,7 +10,6 @@
 import React from 'react'
 import { graphql } from 'react-apollo'
 import { Divider, BackTop } from 'antd'
-import Search from 'components/Search'
 import LIST from 'gql/home/LIST.gql'
 // 均需要更新，链接用户id，现在都是fake id
 import EXPERT_RESOURCES from 'gql/expert-info/EXPERT_RESOURCES.gql'
@@ -46,7 +45,6 @@ class ProfessorInfo extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Search />
         <Container>
           <Divider />
           <UserInfo>

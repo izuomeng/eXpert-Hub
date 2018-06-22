@@ -64,7 +64,7 @@ class ExpertList extends React.Component {
                   <Card
                     title="谭火彬"
                     extra={
-                      <a href="/">
+                      <a href={`/expert/${String(Math.random()).slice(2, 10)}`}>
                         <Icon type="link" />More
                       </a>
                     }

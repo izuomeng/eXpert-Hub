@@ -23,7 +23,7 @@ class Search extends Component {
     const selectBefore = (
       <Select defaultValue={this.props.type} style={{ width: 90 }}>
         <Option value="resource">资源</Option>
-        <Option value="expert">专家</Option>
+        {/* <Option value="expert">专家</Option> */}
       </Select>
     )
     return (
