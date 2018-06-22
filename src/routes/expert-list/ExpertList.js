@@ -1,111 +1,48 @@
 import React from 'react'
-import { Icon, Card, Col, Row } from 'antd'
 import styled from 'styled-components'
+import TOP_SCHOLAR from 'gql/professor-list/TOP_SCHOLAR.gql'
+import SelectList from './SelectExpert'
+import TopScholars from './TopScholars'
 
-const MyTabPane = styled.div`
-  width: 70%;
-  padding-left: 7em;
-  padding-top: 2em;
-`
 const Container = styled.div`
+  width: 70%;
+  margin: auto;
   @media screen and (max-width: 1130px) {
     width: 1045px;
   }
 `
 const CardContainer = styled.div`
-  width: 55%;
-  float: left;
+  margin-top: 20px;
+  padding-left: 2em;
 `
 const ListContainer = styled.div`
-  width: 35%;
-  padding-left: 4em;
-  float: left;
+  padding-left: 2em;
 `
 class ExpertList extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      current: 0
-    }
     this.payload = {
-      token: 0,
-      expertId: 0,
+      nickname: '',
       email: ''
     }
     this.selectRef = React.createRef()
-    this.handleSelectExpert = this.handleSelectExpert.bind(this)
-  }
-  handleSelectExpert(eid) {
-    this.payload.expertId = eid
-    // DEBUG
-    // setTimeout(() => {
-    //   console.info('Expert selected: ', this.state.expertId)
-    // }, 500)
-  }
-  clickSearch = e => {
-    this.setState(
-      {
-        current: e.key
-      },
-      () => console.info(this.state.current)
-    )
   }
   render() {
     return (
-      <MyTabPane>
+      <React.Fragment>
         <Container>
           <CardContainer>
             <div>
               <h2>学者查询</h2>
-            </div>
-            <div style={{ marginTop: '3em' }}>
-              <Row gutter={8} style={{ marginTop: 5 }}>
-                <Col span={12}>
-                  <Card
-                    title="谭火彬"
-                    extra={
-                      <a href={`/expert/${String(Math.random()).slice(2, 10)}`}>
-                        <Icon type="link" />More
-                      </a>
-                    }
-                    actions={[
-                      <span>
-                        文章数: 30 &nbsp; &nbsp; &nbsp; &nbsp; 被引数: 30
-                      </span>
-                    ]}
-                    style={{ width: '100%' }}
-                  >
-                    <p>Card content</p>
-                    <p>Card content</p>
-                  </Card>
-                </Col>
-                <Col span={12}>
-                  <Card
-                    title="谭火彬"
-                    extra={
-                      <a href="/">
-                        <Icon type="link" />More
-                      </a>
-                    }
-                    actions={[
-                      <span>
-                        文章数: 30 &nbsp; &nbsp; &nbsp; &nbsp; 被引数: 30
-                      </span>
-                    ]}
-                    style={{ width: '100%' }}
-                  >
-                    <p>Card content</p>
-                    <p>Card content</p>
-                  </Card>
-                </Col>
-              </Row>
+              <SelectList ref={this.selectRef} />
             </div>
           </CardContainer>
           <ListContainer>
             <h2>热门学者</h2>
+            <TopScholars gqlTag={TOP_SCHOLAR} />
           </ListContainer>
         </Container>
-      </MyTabPane>
+      </React.Fragment>
     )
   }
 }
