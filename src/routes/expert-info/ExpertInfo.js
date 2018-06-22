@@ -8,133 +8,82 @@
  */
 
 import React from 'react'
-import { Breadcrumb, Divider, BackTop } from 'antd'
-import {
-  LineChart,
-  BarChart,
-  Bar,
-  Line,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-  Tooltip,
-  RadarChart,
-  PolarGrid,
-  Legend,
-  PolarAngleAxis,
-  PolarRadiusAxis,
-  Radar
-} from 'recharts'
 import { graphql } from 'react-apollo'
+import { Divider, BackTop } from 'antd'
 import Search from 'components/Search'
 import LIST from 'gql/home/LIST.gql'
-import {
-  Container,
-  UserImage,
-  UserInfo,
-  LeftTable,
-  RightTable
-} from './components/info'
-import main from './components/main.png'
+// 均需要更新，链接用户id，现在都是fake id
+import EXPERT_RESOURCES from 'gql/expert-info/EXPERT_RESOURCES.gql'
+import SUBJECT_DISTRIBUTION from 'gql/expert-info/SUBJECT_DISTRIBUTION.gql'
+import REFERENCE_DOWNLOAD from 'gql/expert-info/REFERENCE_DOWNLOAD.gql'
+import EXPERT_RELATION_GRAPH from 'gql/expert-info/EXPERT_RELATION_GRAPH.gql'
+import { Container, UserInfo, LeftTable, RightTable } from './components/info'
 import ResourceTable from './components/ResourceTable'
-// import PieChart from './components/PieChart'
-// import BarChart from './components/BarChart'
-const LineChartData = [
-  { name: 'a', uv: 4000, pv: 2400 },
-  { name: 'b', uv: 3000, pv: 1398 },
-  { name: 'c', uv: 2000, pv: 1788 }
-]
-const RadarChartData = [
-  { subject: 'Math', A: 120, fullMark: 150 },
-  { subject: 'Chinese', A: 98, fullMark: 150 },
-  { subject: 'English', A: 86, fullMark: 150 },
-  { subject: 'Geography', A: 99, fullMark: 150 },
-  { subject: 'Physics', A: 85, fullMark: 150 },
-  { subject: 'History', A: 65, fullMark: 150 }
-]
+import Reference from './components/Reference'
+import Distribution from './components/Distribution'
+import ExpertRelation from './components/ExpertRelation'
+
+// test user-id: wating for parent page passing through the id. gql files also need rewrite
+const userId = '1'
+
+// test data: self-introduction, waiting for api
+const Introdata = {
+  id: { userId },
+  name: '谭火彬',
+  fields: [
+    { name: '软件工程', url: 'https://localhost:3000/expert' },
+    { name: '计算机', url: 'https://www.baidu.com' }
+  ],
+  intro: 'test',
+  resourcesCnt: 3,
+  citationCnt: 50
+}
+// reference and download data undo, turn to ./components/Reference.jsx
+// subject-distribution data undo, turn to ./components/Distribution.jsx
+// resource-list data undo, turn to ./components/ResourceTable.jsx
+
 class ProfessorInfo extends React.Component {
-  /* static propTypes = {
-    data: PropTypes.shape({
-      getCategoryList: PropTypes.arrayOf(
-        PropTypes.shape({
-          name: PropTypes.string.isRequired
-        })
-      ),
-      loading: PropTypes.bool.isRequired
-    })
-  } */
   render() {
-    // const { getCategoryList, loading } = this.props.data
     return (
       <React.Fragment>
         <Search />
         <Container>
-          <Breadcrumb>
-            <Breadcrumb.Item>
-              <a href="/login">学科</a>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>
-              <a href="/login">研究方向</a>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>专家名</Breadcrumb.Item>
-          </Breadcrumb>
           <Divider />
-
-          <UserImage>
-            <img width="100%" height="100%" src={main} alt="这里有用户头像" />
-          </UserImage>
           <UserInfo>
-            哈哈哈哈哈哈哈哈哈哈哈哈有bug哈哈哈哈哈哈哈哈哈哈哈哈有bug哈哈哈哈哈哈哈哈哈哈哈哈有bug哈哈哈哈哈哈哈哈哈哈哈哈有bug哈哈哈哈哈哈哈哈哈哈哈哈有bug哈哈哈哈哈哈哈哈哈哈哈哈有bug哈哈哈哈哈哈哈哈哈哈哈哈有bug哈哈哈哈哈哈哈哈哈哈哈哈有bug哈哈哈哈哈哈哈哈哈哈哈哈有bug哈哈哈哈哈哈哈哈哈哈哈哈有bug哈哈哈哈哈哈哈哈哈哈哈哈有bug哈哈哈哈哈哈哈哈哈哈哈哈有bug哈哈哈哈哈哈哈哈哈哈哈哈有bug
+            <h1>{Introdata.name}</h1>
+            资源数：{Introdata.resourcesCnt}
+            <Divider type="vertical" />
+            被引数：{Introdata.citationCnt}
+            <br />
+            <br />
+            <h4>
+              <strong>研究领域：</strong>
+              {Introdata.fields.map(field => (
+                <a href={field.url}> {field.name} </a>
+              ))}
+
+              <br />
+              <strong>个人简介：</strong>
+              <font color="#808080">{Introdata.intro}</font>
+            </h4>
           </UserInfo>
           <Divider />
           <LeftTable>
-            <BarChart
-              width={300}
-              height={280}
-              data={LineChartData}
-              layout="vertical"
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis />
-              <YAxis dataKey="pv" />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="uv" fill="#82ca9d" />
-            </BarChart>
+            <Reference gqlTag={REFERENCE_DOWNLOAD} />
           </LeftTable>
           <Divider type="vertical" />
           <RightTable>
-            <RadarChart
-              outerRadius={90}
-              width={500}
-              height={260}
-              data={RadarChartData}
-            >
-              <Radar
-                name="Mike"
-                dataKey="A"
-                stroke="#8884d8"
-                fill="#8884d8"
-                fillOpacity={0.6}
-              />
-              <PolarGrid />
-              <Legend />
-              <PolarAngleAxis dataKey="subject" />
-              <PolarRadiusAxis angle={30} domain={[0, 150]} />
-            </RadarChart>
+            <Distribution gqlTag={SUBJECT_DISTRIBUTION} />
           </RightTable>
           <Divider />
           <div align="center">
-            <LineChart width={600} height={250} data={LineChartData}>
-              <Line type="monotone" dataKey="pv" stroke="#8884d8" />
-              <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-              <XAxis dataKey="uv" />
-              <YAxis />
-              <Tooltip />
-            </LineChart>
+            <h3>
+              这里是专家关系网络图，从数据分析接口返回画图js代码，gql查询结构如EXPERT_RELATION_GRAPH所示
+            </h3>
+            <ExpertRelation gqlTag={EXPERT_RELATION_GRAPH} />
           </div>
           <Divider />
-          <ResourceTable />
+          <ResourceTable gqlTag={EXPERT_RESOURCES} />
           <BackTop />
         </Container>
       </React.Fragment>

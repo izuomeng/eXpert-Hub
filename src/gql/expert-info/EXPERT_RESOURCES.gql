@@ -1,0 +1,10 @@
+query{
+  authoritems{
+    item{
+      title,
+      docType,
+      nCitation,
+      years
+    }
+  }
+}
