@@ -22,12 +22,8 @@ class Detail extends React.Component {
   }
 }
 Detail.propTypes = {
-  params: PropTypes.string.isRequired,
-  query: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    author: PropTypes.string.isRequired,
-    year: PropTypes.string.isRequired
-  }).isRequired
+  params: PropTypes.object.isRequired,
+  query: PropTypes.object.isRequired
 }
-export default Detail
 
+export default Detail

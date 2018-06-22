@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Layout, Icon } from 'antd'
+import { Layout, Icon, Spin } from 'antd'
 import styled from 'styled-components'
 import { InjectClass } from 'utils/HOC'
 import { primaryColor } from 'constants/css-mixin'
@@ -15,7 +15,7 @@ export const StyledLayout = styled(InjectClass(Layout))`
   background: transparent !important;
 `
 export const StyledContent = styled(InjectClass(Content))`
-  padding: 30px;
+  padding: 30px 100px;
 `
 export const Container = styled.div`
   display: block;
@@ -24,12 +24,13 @@ export const PaperItem = styled.div`
   cursor: default;
   padding: 16px 0;
   border-bottom: 1px solid #e8e8e8;
-  & > div:first-child {
+  & > a:first-child {
     word-break: break-all;
     font-size: 1.2em;
     margin-bottom: 10px;
     cursor: pointer;
     transition: color 0.2s;
+    color: #5a5e63;
     &:hover {
       ${primaryColor};
     }
@@ -66,3 +67,13 @@ export const PaperInfo = styled(PI)`
     margin-right: 4px;
   }
 `
+
+const LoadingContainer = styled.div`
+  text-align: center;
+  margin-top: 20px;
+`
+export const Loading = () => (
+  <LoadingContainer>
+    <Spin />
+  </LoadingContainer>
+)

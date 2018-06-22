@@ -42,8 +42,6 @@ const Styledp = styled.p`
 
 const ResourceCard = ({ query }) => (
   <StyledCard title={query.title} hoverable>
-    {console.log(query) // eslint-disable-line
-    }
     <p>
       作者：{query.author}
       {/* {data.items[zero].authoritemSet
