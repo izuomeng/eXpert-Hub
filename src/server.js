@@ -13,7 +13,6 @@ import express from 'express'
 import proxyMiddleware from 'http-proxy-middleware'
 import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
-import expressJwt, { UnauthorizedError as Jwt401Error } from 'express-jwt'
 import { graphql } from 'graphql'
 import expressGraphQL from 'express-graphql'
 import jwt from 'jsonwebtoken'
@@ -69,28 +68,6 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 // proxy-middleware
 app.use('/api', proxyMiddleware(config.proxy))
-//
-// Authentication
-// -----------------------------------------------------------------------------
-app.use(
-  expressJwt({
-    secret: config.auth.jwt.secret,
-    // set to true if front-end authenticate required
-    credentialsRequired: false,
-    getToken: req => req.cookies.token
-  }).unless({ path: ['/login', '/loginapi', '/graphql'] })
-)
-// Error handler for express-jwt
-app.use((err, req, res, next) => {
-  // eslint-disable-line no-unused-vars
-  if (err instanceof Jwt401Error) {
-    console.error('[express-jwt-error]', req.cookies.token)
-    // `clearCookie`, otherwise user can't use web-app until cookie expires
-    res.clearCookie('token')
-    res.redirect('/login')
-  }
-  next(err)
-})
 
 app.post('/loginapi', (req, res) => {
   const payload = req.body
@@ -110,7 +87,7 @@ app.post('/loginapi', (req, res) => {
   )
   res.cookie('token', token, { maxAge: 1000 * expiresIn, httpOnly: false })
   return res.json({
-    errorCode: 0,
+    status: 0,
     userName: 'zuomeng'
   })
 })

@@ -25,7 +25,7 @@ module.exports = {
   // API Gateway
   api: {
     // API URL to be used in the client-side code
-    clientUrl: process.env.API_CLIENT_URL || 'http://localhost:4000',
+    clientUrl: process.env.API_CLIENT_URL || '',
     // API URL to be used in the server-side code
     serverUrl:
       process.env.API_SERVER_URL ||
@@ -46,10 +46,24 @@ module.exports = {
     jwt: { secret: process.env.JWT_SECRET || 'React Starter Kit' }
   },
   proxy: {
-    target: 'https://github.com/Midor1/ExpertHubAuth',
+    target: 'http://139.199.80.199:811',
     changeOrigin: true,
     pathRewrite: {
       '^/api': ''
-    }
+    },
+    onProxyReq(proxyReq) {
+      proxyReq.removeHeader('content-length')
+    },
+    onProxyRes(proxyRes) {
+      if (proxyRes.headers['set-cookie']) {
+        const cookie = proxyRes.headers['set-cookie'].toString()
+        const token = cookie.slice(cookie.indexOf('=') + 1)
+        // eslint-disable-next-line
+        proxyRes.headers[
+          'Set-Cookie'
+        ] = `token=${token}; Max-Age=15552000; Path=/`
+      }
+    },
+    logLevel: 'debug'
   }
 }

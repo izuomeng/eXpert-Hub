@@ -11,13 +11,14 @@ import ResourceList from './components/ResourceList'
 import Sidebar from './components/Sidebar'
 import Identification from './components/Identification'
 import IdentifiedList from './components/IdentifiedList'
+import Upload from './components/Upload'
 
 const { Content } = Layout
 
 class UserCenter extends React.Component {
   static propTypes = {
-    id: PropTypes.string.isRequired,
-    fetch: PropTypes.func.isRequired
+    id: PropTypes.string.isRequired
+    // fetch: PropTypes.func.isRequired
   }
   state = {
     current: '11'
@@ -33,12 +34,9 @@ class UserCenter extends React.Component {
     console.info(res)
   }
   handleClick = e => {
-    this.setState(
-      {
-        current: e.key
-      },
-      () => console.info(this.state.current)
-    )
+    this.setState({
+      current: e.key
+    })
   }
   mapRoutes() {
     const { current } = this.state
@@ -62,10 +60,12 @@ class UserCenter extends React.Component {
             gqlTag={UPLOADED_RESOURCE}
           />
         )
+      case '32':
+        return <Upload />
       case '41':
-        return <Identification />
+        return <Identification uid={id} />
       case '42':
-        return <IdentifiedList />
+        return <IdentifiedList {...this.props} />
       default:
         return null
     }

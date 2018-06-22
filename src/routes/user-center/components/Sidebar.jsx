@@ -15,7 +15,7 @@ const Sidebar = ({ handleClick }) => (
       <SidebarHeader />
       <Menu.ItemGroup title="个人中心">
         <Menu.Item key="11"> 首页 </Menu.Item>
-        <Menu.Item key="12"> 修改资料 </Menu.Item>
+        {/* <Menu.Item key="12"> 修改资料 </Menu.Item> */}
         <Menu.Item key="13"> 充值积分 </Menu.Item>
       </Menu.ItemGroup>
       <Menu.ItemGroup title="我的购买">

@@ -11,13 +11,13 @@ import React from 'react'
 import Resources from './Resources'
 import Layout from '../../components/Layout'
 
-function action() {
+function action({ client }) {
   return {
     title: '资源',
     chunks: ['resources'],
     component: (
       <Layout>
-        <Resources />
+        <Resources client={client} />
       </Layout>
     )
   }
