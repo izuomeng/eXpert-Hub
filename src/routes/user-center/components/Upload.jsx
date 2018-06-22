@@ -8,14 +8,8 @@ const { Option } = Select
 class UserUpload extends React.Component {
   handleSubmit = e => {
     e.preventDefault()
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        console.info('Received values of form: ', values)
-      }
-    })
   }
   normFile = e => {
-    console.info('Upload event:', e)
     if (Array.isArray(e)) {
       return e
     }
@@ -30,29 +24,17 @@ class UserUpload extends React.Component {
     }
     return (
       <Form onSubmit={this.handleSubmit}>
-        <FormItem {...formItemLayout} label="论文" hasFeedback>
-          {getFieldDecorator('select', {
-            rules: [{ required: true, message: 'Please select the essay' }]
-          })(
-            <Select placeholder="Please select the essay">
-              <Option value="1">Computer and Intractability</Option>
-              <Option value="2">
-                TCS: a computer program to estimate gene genealogies
-              </Option>
-              <Option value="3">Computer simulation of liquids</Option>
-            </Select>
-          )}
+        <FormItem {...formItemLayout} label="论文">
+          <Select placeholder="Please select the essay">
+            <Option value="1">Computer and Intractability</Option>
+            <Option value="2">
+              TCS: a computer program to estimate gene genealogies
+            </Option>
+            <Option value="3">Computer simulation of liquids</Option>
+          </Select>
         </FormItem>
-
         <FormItem {...formItemLayout} label="价格">
-          {getFieldDecorator('select-multiple', {
-            rules: [
-              {
-                required: true,
-                message: 'Please input the price '
-              }
-            ]
-          })(<Input placeholder="Please input the price" />)}
+          <Input placeholder="Please input the price" />
         </FormItem>
 
         <FormItem {...formItemLayout} label="Upload" extra="">

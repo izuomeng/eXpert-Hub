@@ -15,15 +15,19 @@ import Paper from './components/Paper'
 const RESOURCES = gql`
   query search($title: String, $begin: Int, $end: Int) {
     Items(q: $title, begin: $begin, end: $end) {
+      id
       title
       year
+      pdf
       authors {
         name
       }
     }
   }
 `
-
+function toString(a) {
+  return a.map(v => v.name).toString()
+}
 class Resources extends React.Component {
   static propTypes = {
     client: PropTypes.object.isRequired
@@ -97,7 +101,7 @@ class Resources extends React.Component {
                     style={{ display: 'block' }}
                     href={`/resources/${paper.id}?title=${paper.title}&year=${
                       paper.year
-                    }&author=${toString(paper.authors)}`}
+                    }&author=${toString(paper.authors)}&url=${paper.pdf}`}
                   >
                     {paper.title}
                   </a>

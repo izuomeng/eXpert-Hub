@@ -2,6 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { Spin, Divider } from 'antd'
 import PropTypes from 'prop-types'
+import TOPK from 'gql/professor-list/TOP_SCHOLAR.gql'
+import { graphql } from 'react-apollo'
 
 const List = styled.div`
   border-style: solid;
@@ -55,7 +57,7 @@ class TopScholar extends React.Component {
           name: PropTypes.string.isRequired,
           referencedCount: PropTypes.number.isRequired,
           downloadedCount: PropTypes.number.isRequired,
-          score: PropTypes.number.isRequired
+          score: PropTypes.number
         })
       ),
       loading: PropTypes.bool.isRequired
@@ -79,7 +81,7 @@ class TopScholar extends React.Component {
   render() {
     const { loading, topExpert } = this.props.data
     return (
-      <div style={{ width: '100%' }}>
+      <div style={{ width: '100%', textAlign: 'center' }}>
         <Spin spinning={loading}>
           {!loading && (
             <React.Fragment>
@@ -98,7 +100,7 @@ class TopScholar extends React.Component {
                     name={item.name}
                     referencedCount={item.referencedCount}
                     downloadedCount={item.downloadedCount}
-                    score={item.score}
+                    score={item.score || 0}
                   />
                 ))}
               </List>
@@ -109,4 +111,4 @@ class TopScholar extends React.Component {
     )
   }
 }
-export default TopScholar
+export default graphql(TOPK)(TopScholar)

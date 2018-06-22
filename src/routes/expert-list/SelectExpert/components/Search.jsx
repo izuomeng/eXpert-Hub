@@ -40,16 +40,9 @@ class ExpertSearch extends Component {
             <Input.Group compact>
               <Input
                 name="name"
-                style={{ width: '40%' }}
+                style={{ width: '90%' }}
                 placeholder="姓名"
                 value={this.state.name}
-                onChange={this.handleChange}
-              />
-              <Input
-                name="institution"
-                style={{ width: '55%' }}
-                placeholder="机构"
-                value={this.state.institution}
                 onChange={this.handleChange}
               />
             </Input.Group>

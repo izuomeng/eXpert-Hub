@@ -33,7 +33,7 @@ const Introdata = {
     { name: '软件工程', url: 'https://localhost:3000/expert' },
     { name: '计算机', url: 'https://www.baidu.com' }
   ],
-  intro: 'test',
+  intro: '无',
   resourcesCnt: 3,
   citationCnt: 50
 }

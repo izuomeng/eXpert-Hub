@@ -28,7 +28,7 @@ class Login extends React.Component {
     e.preventDefault()
     form.validateFields(async (err, values) => {
       if (!err) {
-        const res = await fetch('/api/login', {
+        const res = await fetch('/loginapi', {
           method: 'post',
           body: values,
           headers: {

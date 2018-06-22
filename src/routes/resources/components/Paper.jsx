@@ -14,6 +14,8 @@ import {
 const RESOURCES = gql`
   query list($begin: Int, $end: Int) {
     Items(q: "a", begin: $begin, end: $end) {
+      id
+      pdf
       title
       year
       authors {
@@ -92,7 +94,7 @@ class Paper extends Component {
                     style={{ display: 'block' }}
                     href={`/resources/${paper.id}?title=${paper.title}&year=${
                       paper.year
-                    }&author=${toString(paper.authors)}`}
+                    }&author=${toString(paper.authors)}&url=${paper.pdf}`}
                   >
                     {paper.title}
                   </a>

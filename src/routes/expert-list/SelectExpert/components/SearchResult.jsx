@@ -8,8 +8,7 @@ import ResultList from './ResultList'
 class SearchResult extends React.Component {
   static propTypes = {
     variables: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      institution: PropTypes.string.isRequired
+      name: PropTypes.string.isRequired
     }).isRequired,
     onSelect: PropTypes.func.isRequired
   }
@@ -29,7 +28,7 @@ class SearchResult extends React.Component {
         {({ loading, data }) => (
           <Spin spinning={loading}>
             {!loading && (
-              <ResultList onSelect={this.onChange} data={data.authors} />
+              <ResultList onSelect={this.onChange} data={data.Authors} />
             )}
           </Spin>
         )}

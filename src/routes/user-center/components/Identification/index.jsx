@@ -59,12 +59,13 @@ class Identification extends React.Component {
   next() {
     // 校验
     if (this.state.current === 0) {
-      const eid = this.selectRef.current.selectedEid
-      if (eid !== 0) {
-        this.payload.nickname = eid
-        const current = this.state.current + 1
-        this.setState({ current })
-      }
+      // const eid = this.selectRef.current.selectedEid
+      // if (eid !== 0) {
+      //   this.payload.nickname = eid
+      //   const current = this.state.current + 1
+      //   this.setState({ current })
+      // }
+      this.setState({ current: 1 })
     } else if (this.state.current === 1) {
       this.formRef.current.validateFieldsAndScroll((err, values) => {
         if (!err) {

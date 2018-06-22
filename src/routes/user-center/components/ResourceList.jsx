@@ -53,7 +53,7 @@ class ResourceList extends Component {
         <Spin spinning={loading}>
           {!loading && (
             <List>
-              {list.map(v => v.item).map((item, i) => (
+              {list.map((item, i) => (
                 <Item
                   key={item.title + i} // eslint-disable-line
                   name={item.title}

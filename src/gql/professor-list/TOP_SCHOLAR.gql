@@ -1,9 +1,9 @@
-query{
-  topExpert(topk: 8) {
-    rank,
-    name,
-    referencedCount,
-    downloadedCount,
-    score,
+query {
+  topExpert(topk: 20) {
+    rank
+    name
+    referencedCount
+    downloadedCount
+    score
   }
 }

@@ -1,7 +1,5 @@
 query {
   authoritems {
-    item {
-      title
-    }
+    title
   }
 }

@@ -24,12 +24,13 @@ class SearchStep extends React.Component {
   // 提交给父组件的数据，由父组件自己获取
   selectedEid = 0
 
-  handleSearch(name, institution) {
+  handleSearch(name) {
     this.setState({ show: false })
-    this.keyword.name = name
-    this.keyword.institution = institution
-    if (this.keyword.institution === '') delete this.keyword.institution
-    if (this.keyword.name === '') delete this.keyword.name
+    this.keyword = {
+      name,
+      begin: 0,
+      end: 20
+    }
     this.setState({ show: true })
     // DEBUG
     console.info(this.keyword)

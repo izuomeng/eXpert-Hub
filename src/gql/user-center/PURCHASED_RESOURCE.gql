@@ -1,7 +1,5 @@
 query {
   attachments {
-    item {
-      title
-    }
+    title
   }
 }
