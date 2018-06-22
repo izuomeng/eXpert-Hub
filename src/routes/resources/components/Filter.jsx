@@ -27,6 +27,7 @@ const Filter = ({ data: { loading, fields }, handleClick }) => (
   <Card hoverable style={{ cursor: 'default' }}>
     <p>领域</p>
     {!loading &&
+      typeof fields !== 'undefined' &&
       fields.map(item => (
         <Item key={item.field} onClick={() => handleClick(item.field)}>
           {item.field}（{trans(item.count)}）
